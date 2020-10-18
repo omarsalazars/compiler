@@ -1,6 +1,6 @@
 from lexer.Rules import TokenType
 from .ParseError import ParseError
-from .TreeNode import TreeNode
+from .AST import *
 
 class Parser:
     def __init__(self, tokens):
@@ -48,35 +48,44 @@ class Parser:
     #Start of Grammar Rules
 
     #MAIN -> main{ DECLARATIONS STATEMENTS }
-    def Main(self): 
+    def Main(self):
         self.expect(TokenType.MAIN)
         self.expect(TokenType.LB)
-        self.Declarations()
-        self.Statements()
+        declarations = self.Declarations()
+        statements = self.Statements()
         self.expect(TokenType.RB)
+        return MainNode("main", declarations, statements)
 
     #DECLARATIONS -> DECLARATION DECLARATIONS | E
     def Declarations(self):
         first = [TokenType.INT, TokenType.REAL, TokenType.BOOLEAN]
+        declarations = []
         while self.match(first):
-            self.Declaration()
+            declarations.append(self.Declaration())
+        return declarations
 
     #DECLARATION -> TYPE VARS ;
     def Declaration(self):
-        self.Type()
-        self.Vars()
+        type = self.Type()
+        var = self.Vars()
         self.expect(TokenType.SEMICOLON)
+        return DeclarationNode(type, var)
     
     #TYPE -> int | real | boolean
     def Type(self):
         first = [TokenType.INT, TokenType.REAL, TokenType.BOOLEAN]
         self.expect(first)
+        return TypeNode(self.current)
 
     #VARS -> identifier { , identifier }
     def Vars(self):
+        vars = []
+        vars.append(VarNode(self.current))
         self.expect(TokenType.IDENTIFIER)
         while self.accept(TokenType.COMMA):
+            vars.append(VarNode(self.current))
             self.expect(TokenType.IDENTIFIER)
+        return vars
 
     #STATEMENTS -> STATEMENT STATEMENTS | E
     def Statements(self):
@@ -84,93 +93,124 @@ class Parser:
             TokenType.IF, TokenType.WHILE, TokenType.READ,
             TokenType.PRINT, TokenType.LB, TokenType.IDENTIFIER 
         ]
+        statements = []
         while self.match(first):
-            self.Statement()
+            statements.append(self.Statement())
+        return statements
             
 
     #STATEMENT -> IF_STMT | WHILE_STMT | READ_STMT | PRINT_STMT | BLOCK_STMT | ASSIGN_STMT
     def Statement(self):
         if self.match(TokenType.IF):
-            self.If()
+            statement = self.If()
         elif self.match(TokenType.WHILE):
-            self.While()
+            statement = self.While()
         elif self.match(TokenType.READ):
-            self.Read()
+            statement = self.Read()
         elif self.match(TokenType.PRINT):
-            self.Print()
+            statement = self.Print()
         elif self.match(TokenType.LB):
-            self.Block()
+            statement = self.Block()
         elif self.match(TokenType.IDENTIFIER):
-            self.Assign()
+            statement = self.Assign()
         else:
             raise ParseError(self.current.pos, "Unexpected token")
+        return statement
 
     #IF_STMT -> if ( RELATIONAL_EXPRESSION ) BLOCK_STMT { ELSE_STMT }
     def If(self):
         self.expect(TokenType.IF)
         self.expect(TokenType.LP)
-        self.RelationalExpression()
+        relationalExpression = self.RelationalExpression()
         self.expect(TokenType.RP)
-        self.Block()
+        block = self.Block()
         if self.match(TokenType.ELSE):
-            Else()
+            elseNode = self.Else()
+            return IfNode(relationalExpression, block, elseNode)
+        return IfNode(relationalExpression, block)
+
+    def Else(self):
+        self.expect(TokenType.ELSE)
+        if self.match(TokenType.IF):
+            return self.If()
+        elif self.match(TokenType.LB):
+            return self.Block()
+        raise ParseError(self.current.pos, "Unexpected token")
 
     #WHILE_STMT -> while ( RELATIONAL_EXPRESSION ) BLOCK_STMT
     def While(self):
         self.expect(TokenType.WHILE)
         self.expect(TokenType.LP)
-        self.RelationalExpression()
+        relationalExpression = self.RelationalExpression()
         self.expect(TokenType.RP)
-        Block()
+        block = self.Block()
+        return WhileNode(relationalExpression, block)
 
     #READ_STMT -> read id ;
     def Read(self):
         self.expect(TokenType.READ)
+        var = self.current
         self.expect(TokenType.IDENTIFIER)
         self.expect(TokenType.SEMICOLON)
+        return ReadNode(var)
 
     #PRINT_STMT -> print RELATIONAL_EXPESSION ;
     def Print(self):
         self.expect(TokenType.PRINT)
-        self.RelationalExpression()
+        relationalExpression = self.RelationalExpression()
         self.expect(TokenType.SEMICOLON)
+        return PrintNode(relationalExpression)
 
     #BLOCK_STMT -> { STATEMENTS }
     def Block(self):
         self.expect(TokenType.LB)
-        self.Statements()
+        statements = self.Statements()
         self.expect(TokenType.RB)
+        return BlockNode(statements)
 
     #ASSIGN_STMT -> id = RELATIONAL_EXPRESSION ;
     def Assign(self):
+        left = self.current
         self.expect(TokenType.IDENTIFIER)
         self.expect(TokenType.EQUALS)
-        self.RelationalExpression()
+        relationalExpression = self.RelationalExpression()
         self.expect(TokenType.SEMICOLON)
+        return AssignNode(left, relationalExpression)
     
-    #RELATIONAL_EXPRESSION -> EXPRESSION { RELOP EXPRESSION }
+    #RELATIONAL_EXPRESSION -> EXPRESSION { RELOP EXPRESSION }*
     def RelationalExpression(self):
         RELOP = [
             TokenType.LT, TokenType.GT, TokenType.GET, TokenType.LET,
             TokenType.ET, TokenType.NE
         ]
-        self.Expression()
+        relationalExpression = self.Expression()
+        relop = self.current
         if self.accept(RELOP):
-            self.Expression()
+            rightExpression = self.Expression()
+            relationalExpression = RelationalExpressionNode(relationalExpression, relop, rightExpression)
+        return relationalExpression
 
     #EXPRESSION -> TERM { ADDOP TERM }
     def Expression(self):
         ADDOP = [ TokenType.PLUS, TokenType.MINUS ]
-        self.Term()
+        node = self.Term()
+        op = self.current
         while self.accept(ADDOP):
-            self.Term()
-    
+            right = self.Term()
+            node = BinaryOperationNode(node, op, right)
+            op = self.current
+        return node
+
     #TERM -> FACTOR { MULOP FACTOR }
     def Term(self):
         MULOP = [ TokenType.MULTIPLY, TokenType.DIVIDE ]
-        self.Factor()
+        node = self.Factor()
+        op = self.current
         while self.accept(MULOP):
-            self.Factor()
+            right = self.Factor()
+            node = BinaryOperationNode(node, op, right)
+            op = self.current
+        return node
 
     #FACTOR -> id | number | (EXPRESSION)
     def Factor(self):
@@ -179,11 +219,13 @@ class Parser:
             TokenType.FLOAT, TokenType.SFLOAT, TokenType.BOOLEAN
         ]
         if self.accept(TokenType.LP):
-            self.Expression()
+            node = self.Expression()
             self.expect(TokenType.RP)
         else:
+            node = NumNode(self.current)
             self.expect(LITERAL)
             #Good production
+        return node
 
     def parse(self):
-       self.Main() 
+       return self.Main()

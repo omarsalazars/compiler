@@ -1,5 +1,5 @@
 from enum import Enum
-class TokenType(Enum):
+class TokenType(str, Enum):
     MAIN = "main"
     IF = "if"
     ELSE = "else"

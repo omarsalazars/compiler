@@ -1,5 +1,12 @@
 main{
-	int a;
-	a=123;
-	a=10*5;
+	int a, x, y;
+	real b, c;
+	if(x>y){
+		a = 10;
+		while(a+b){
+			x=20;
+		}
+	}
+	read x;
+
 }

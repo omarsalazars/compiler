@@ -1,7 +1,9 @@
 from .Rules import TokenType
 
-class Token:
+class Token(dict):
     def __init__(self, type, val, pos):
+        super().__init__()
+        self.__dict__ = self
         self.type = type
         self.val = val
         self.pos = pos

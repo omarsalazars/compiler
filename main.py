@@ -4,6 +4,7 @@ from lexer.LexerError import LexerError
 from lexer.Rules import rules
 from parser.Parser import Parser
 import sys
+import json
 
 lx = Lexer(rules, skip_whitespace=True)
 
@@ -26,4 +27,6 @@ except LexerError as err:
 
 tokens
 parser = Parser(tokens)
-parser.parse()
+abstractTree =parser.parse()
+json_str = json.dumps(abstractTree, indent=4)
+print(json_str)
