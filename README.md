@@ -3,7 +3,7 @@ Compilador para la clase de Compiladores.
 Fases:
 
 - [x] Analizador léxico
-- [ ] Analizador sintáctico
+- [x] Analizador sintáctico
 - [ ] IDE
 - [ ] Analizador semantico
 - [ ] Tabla de simbolos
