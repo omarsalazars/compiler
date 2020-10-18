@@ -1,16 +1,18 @@
-Compilador para la clase de blanca.
+Compilador para la clase de Compiladores.
 
 Fases:
 
 - [x] Analizador léxico
 - [ ] Analizador sintáctico
+- [ ] IDE
 - [ ] Analizador semantico
+- [ ] Tabla de simbolos
 - [ ] Generación de código intermedio
 - [ ] Optimización
 - [ ] Generación de código máquina
 
 ```
-git clone github.com/omarsalazars/compiler
+git clone git@github.com:omarsalazars/compiler.git
 cd compiler
 python main.py a
 ```
