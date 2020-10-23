@@ -1,0 +1,28 @@
+.keyword{
+    -fx-fill: purple;
+    -fx-font-weight: bold;
+}
+
+.paren{
+    -fx-fill: brown;
+}
+
+.brace{
+    -fx-fill: red;
+}
+
+.semi{
+    -fx-fill: green;
+}
+
+.number, .float{
+    -fx-fill: orange;
+}
+
+.literal{
+    -fx-fill: blue;
+}
+
+.type{
+    -fx-fill: chocolate;
+}
