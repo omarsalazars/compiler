@@ -1,8 +1,12 @@
 package sample;
 
+import compiler.AST;
+import compiler.Compiler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.fxmisc.richtext.CodeArea;
@@ -16,9 +20,14 @@ public class Controller {
     CodeArea editor;
     @FXML
     Button compile, lexic, syntactic, semantic;
+    @FXML
+    TextArea lexicOutput;
+    @FXML
+    TreeView parserOutput;
 
     private Compiler COMPILER;
     private SyntaxHighlighter HIGHLIGHTER;
+    private String filePath;
 
     @FXML
     public void initialize(){
@@ -26,10 +35,15 @@ public class Controller {
         HIGHLIGHTER = new SyntaxHighlighter(editor);
         setHighlighter();
 
+        filePath = System.getProperty("user.dir")+"/../a";
+
         compile.setOnAction(actionEvent -> COMPILER.Compile(editor.getText()));
-        lexic.setOnAction( actionEvent -> COMPILER.Lexic(editor.getText()) );
-        syntactic.setOnAction( actionEvent -> COMPILER.Syntactic(editor.getText()) );
-        semantic.setOnAction( actionEvent -> COMPILER.Semantic(editor.getText()) );
+        lexic.setOnAction( actionEvent -> lexicOutput.setText(COMPILER.getLexer().run(filePath)));
+        syntactic.setOnAction( actionEvent -> {
+            AST ast = new AST(COMPILER.getParser().run(filePath));
+            parserOutput.setRoot(ast.toTreeNode());
+        });
+        semantic.setOnAction( actionEvent -> COMPILER.getSemantic().run(filePath) );
     }
 
     private void setHighlighter(){

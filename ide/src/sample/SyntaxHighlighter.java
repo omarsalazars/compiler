@@ -54,7 +54,6 @@ public class SyntaxHighlighter {
 
     public SyntaxHighlighter(CodeArea editor){
         this.editor = editor;
-        System.out.println(this.editor);
     }
 
     private StyleSpans<Collection<String>> computeHighlighting(String text){
@@ -97,7 +96,6 @@ public class SyntaxHighlighter {
         public VisibleParagraphStyler(GenericStyledArea<PS, SEG, S> area, Function<String, StyleSpans<S>> computeStyles){
             this.computeStyles = computeStyles;
             this.area = area;
-            System.out.println(this.area);
         }
 
         @Override

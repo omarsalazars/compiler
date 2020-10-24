@@ -7,7 +7,6 @@ class AST(dict):
 class MainNode(AST):
     def __init__(self, name, declarations, statements):
         super().__init__()
-        self.name = name
         self.declarations = declarations
         self.statements = statements
     def __str__(self):
@@ -22,7 +21,10 @@ class DeclarationNode(AST):
     def __init__(self, type, var):
         super().__init__()
         self.type = type
-        self.var = var
+        if isinstance(var, list):
+            self.vars = var
+        else:
+            self.var = var
     def __str__(self):
         return "Declaration"
 
@@ -30,17 +32,16 @@ class TypeNode(AST):
     def __init__(self, token):
         super().__init__()
         self.token = token
-        self.val = token.val
 
 class VarNode(AST):
     def __init__(self, token):
         super().__init__()
         self.token = token
-        self.val = token.val
 
 class IfNode(AST):
     def __init__(self, relationalExpression, block, elseNode = None):
         super().__init__()
+        self.prod = "if statement"
         if isinstance(relationalExpression, RelationalExpressionNode):
             self.relationalExpression = relationalExpression
         else:
@@ -54,6 +55,7 @@ class IfNode(AST):
 class WhileNode(AST):
     def __init__(self, relationalExpression, block):
         super().__init__()
+        self.prod = "while statement"
         if isinstance(relationalExpression, RelationalExpressionNode):
             self.relationalExpression = relationalExpression
         else:
@@ -65,6 +67,7 @@ class WhileNode(AST):
 class ReadNode(AST):
     def __init__(self, token):
         super().__init__()
+        self.prod = "read statement"
         self.token = token
     def __str__(self):
         return "ReadNode"
@@ -72,6 +75,7 @@ class ReadNode(AST):
 class PrintNode(AST):
     def __init__(self, relationalExpression):
         super().__init__()
+        self.prod = "print statement"
         self.relationalExpression = relationalExpression
     def __str__(self):
         return "PrintNode"
@@ -91,6 +95,7 @@ class NumNode(AST):
 class AssignNode(AST):
     def __init__(self, left, relationalExpression):
         super().__init__()
+        self.prod = "assign statement"
         self.left = left
         if isinstance(relationalExpression, RelationalExpressionNode):
             self.relationalExpression = relationalExpression
