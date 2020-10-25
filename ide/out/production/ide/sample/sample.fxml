@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane fx:id="mainPane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -13,7 +13,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="1349.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+      <BorderPane prefHeight="200.0" prefWidth="473.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <center>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="285.0" prefWidth="1349.0" BorderPane.alignment="CENTER">
               <items>
@@ -21,10 +21,18 @@
                      <children>
                         <SplitPane dividerPositions="0.5" layoutX="-1.0" layoutY="-32.0" prefHeight="95.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                <children>
-                                    <CodeArea fx:id="editor" prefHeight="93.0" prefWidth="94.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                </children>
+                            <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <TabPane fx:id="filesTabs" layoutX="170.0" layoutY="-53.0" prefHeight="93.0" prefWidth="669.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <tabs>
+                                      </tabs>
+                                    </TabPane>
+                                     <HBox AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="1.0">
+                                         <children>
+                                             <Button fx:id="addFile" text="+" />
+                                         </children>
+                                     </HBox>
+                                 </children>
                             </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
@@ -42,7 +50,7 @@
                                           <content>
                                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                    <children>
-                                                      <TreeView fx:id="parserOutput" layoutX="8.0" layoutY="-70.0" prefHeight="60.0" prefWidth="668.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <TreeView layoutX="8.0" layoutY="-70.0" prefHeight="60.0" prefWidth="668.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children></AnchorPane>
                                           </content>
                                         </Tab>
@@ -57,7 +65,10 @@
                           </items>
                         </SplitPane>
                      </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="1237.0">
+                     <children>
+                        <CodeArea fx:id="editor" layoutX="64.0" layoutY="1.0" prefHeight="95.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children></AnchorPane>
               </items>
             </SplitPane>
          </center>

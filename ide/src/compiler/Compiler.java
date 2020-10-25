@@ -27,10 +27,10 @@ public class Compiler {
         parser = new SyntacticPhase();
     }
 
-    public Boolean Compile(String code){
+    public Boolean Compile(String filePath){
         try {
-            this.lex.run(code);
-            this.parser.run(code);
+            this.lex.run(filePath);
+            this.parser.run(filePath);
             return true;
         }catch(Exception e){
             return false;

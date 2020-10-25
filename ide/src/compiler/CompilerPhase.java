@@ -26,9 +26,10 @@ public abstract class CompilerPhase {
         return this.executeProcess(this.path, filePath);
     }
 
-    public String executeProcess(String programPath, String filePath){
+    private String executeProcess(String programPath, String filePath){
         String s = "", line;
         try {
+            System.out.println(filePath);
             Process p = Runtime.getRuntime().exec("python "+programPath+" "+filePath);
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
             //BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
