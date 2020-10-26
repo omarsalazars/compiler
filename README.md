@@ -4,7 +4,7 @@ Fases:
 
 - [x] Analizador léxico
 - [x] Analizador sintáctico
-- [ ] IDE
+- [x] IDE
 - [ ] Analizador semantico
 - [ ] Tabla de simbolos
 - [ ] Generación de código intermedio
