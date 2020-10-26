@@ -29,11 +29,13 @@ public abstract class CompilerPhase {
     private String executeProcess(String programPath, String filePath){
         String s = "", line;
         try {
-            System.out.println(filePath);
             Process p = Runtime.getRuntime().exec("python "+programPath+" "+filePath);
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            //BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             while ((line = stdInput.readLine()) != null) {
+                s += line+"\n";
+            }
+            while( (line = stdError.readLine()) != null){
                 s += line+"\n";
             }
         }catch(IOException e){

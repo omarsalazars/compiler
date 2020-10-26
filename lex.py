@@ -18,7 +18,9 @@ tokens = []
 
 try:
     for tok in lx.tokens():
-        print(tok)
         tokens.append(tok)
 except LexerError as err:
-        print('LexerError at position %s' % err.pos)
+    raise err
+
+for tok in tokens:
+    print(tok)

@@ -42,13 +42,11 @@ class Lexer:
                 tok = Token(tok_type, match.group(groupname), self.pos)
                 self.pos = match.end()
                 return tok
-
-            raise LexerError(self.pos)
+            print(self.buf[self.pos])
+            raise LexerError(self.pos, self.buf[self.pos])
 
     def tokens(self):
         while 1:
             tok = self.token()
             if tok is None: break
             yield tok
-
-

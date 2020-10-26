@@ -68,6 +68,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="1237.0">
                      <children>
                         <CodeArea fx:id="editor" layoutX="64.0" layoutY="1.0" prefHeight="95.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextArea fx:id="console" layoutX="36.0" layoutY="-52.0" prefHeight="95.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children></AnchorPane>
               </items>
             </SplitPane>

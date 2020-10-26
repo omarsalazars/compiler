@@ -24,6 +24,7 @@ public class FileManager{
         files.add(new FileEditor("Untitled "+untitledCount));
         current = files.size()-1;
     }
+
     public void remove(Tab tab){
         FileEditor index = null;
         for (FileEditor file : files) {

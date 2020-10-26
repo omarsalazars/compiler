@@ -4,6 +4,15 @@ public class Compiler {
 
     private LexicalPhase lex;
     private SyntacticPhase parser;
+    private SemanticPhase semantic;
+    private String projectPath;
+
+    public Compiler(){
+        /* /home/omar/Documents/compiler/ide */
+        projectPath = System.getProperty("user.dir");
+        lex = new LexicalPhase();
+        parser = new SyntacticPhase();
+    }
 
     public LexicalPhase getLexer() {
         return lex;
@@ -15,16 +24,6 @@ public class Compiler {
 
     public SemanticPhase getSemantic() {
         return semantic;
-    }
-
-    private SemanticPhase semantic;
-    private String projectPath;
-
-    public Compiler(){
-        /* /home/omar/Documents/compiler/ide */
-        projectPath = System.getProperty("user.dir");
-        lex = new LexicalPhase();
-        parser = new SyntacticPhase();
     }
 
     public Boolean Compile(String filePath){

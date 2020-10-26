@@ -6,6 +6,7 @@ import filemanager.FileManager;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -24,7 +25,7 @@ public class Controller {
     @FXML
     Button compile, lexic, syntactic, semantic, addFile, saveButton, openButton;
     @FXML
-    TextArea lexicOutput;
+    TextArea lexicOutput, console;
     @FXML
     TreeView parserOutput;
     @FXML
@@ -34,14 +35,14 @@ public class Controller {
     @FXML
     GridPane mainPane;
 
-    private FileManager fileManager;
-    private Compiler COMPILER;
+    private FileManager fileManager = new FileManager();
+    private Compiler COMPILER = new Compiler();
     private SyntaxHighlighter HIGHLIGHTER;
 
     @FXML
     public void initialize(){
+        HIGHLIGHTER = new SyntaxHighlighter(editor);
         filesTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
-        fileManager = new FileManager();
         fileManager.loadRecents(filesTabs);
         if(fileManager.getFiles().size() == 0) {
             fileManager.newFile();
@@ -52,48 +53,19 @@ public class Controller {
         fileManager.getCurrent().getTab().setContent(editor);
 
         lexicOutput.setEditable(false);
-        COMPILER = new Compiler();
-        HIGHLIGHTER = new SyntaxHighlighter(editor);
         setHighlighter();
 
-        openButton.setOnAction(e -> {
-            if(fileManager.openFile(mainPane.getScene().getWindow())) {
-                filesTabs.getTabs().add(fileManager.getCurrent().getTab());
-                filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
-                editor.replaceText(0, editor.getText().length(), fileManager.getCurrent().getContent());
-            }else{
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("Error abriendo el archivo. El archivo está siendo utilizado por este o por otro programa.");
-                a.show();
-            }
-        });
+        openButton.setOnAction(AE -> this.openButtonAction(AE));
+        saveButton.setOnAction(AE -> this.saveButtonAction(AE));
 
         compile.setOnAction(actionEvent -> {
-            fileManager.getCurrent().save(mainPane.getScene().getWindow());
-            COMPILER.Compile(fileManager.getCurrent().getFile().getAbsolutePath());
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Acción no implementada");
+            a.show();
         });
 
-        lexic.setOnAction( actionEvent -> {
-            fileManager.getCurrent().setContent(editor.getText());
-            if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
-                String lexerOutput = COMPILER.getLexer().run(fileManager.getCurrent().getFile().getAbsolutePath());
-                fileManager.getCurrent().setLexerOutput(lexerOutput);
-                lexicOutput.setText(lexerOutput);
-            }else{
-                System.out.println("Not saved");
-            }
-        });
-
-        syntactic.setOnAction( actionEvent -> {
-            fileManager.getCurrent().setContent(editor.getText());
-            if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
-                AST ast = new AST(COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath()));
-                fileManager.getCurrent().setParser(ast);
-                parserOutput.setRoot(ast.toTreeNode());
-            }else{
-                System.out.println("Not saved");
-            }
-        });
+        lexic.setOnAction( actionEvent -> lexicAction(actionEvent));
+        syntactic.setOnAction( actionEvent -> syntacticAction(actionEvent));
         semantic.setOnAction( actionEvent -> COMPILER.getSemantic().run(fileManager.getCurrent().getFile().getAbsolutePath()) );
 
         //Files
@@ -101,31 +73,104 @@ public class Controller {
                 new ChangeListener<Tab>() {
                     @Override
                     public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                        if(oldValue != null)
-                            oldValue.setContent(null);
-                        fileManager.getCurrent().setContent(editor.getText());
-                        fileManager.setCurrent(newValue);
-                        editor.replaceText(0,editor.getText().length(),fileManager.getCurrent().getContent());
-                        fileManager.getCurrent().getTab().setContent(editor);
-
-                        //Outputs
-                        lexicOutput.setText(fileManager.getCurrent().getLexerOutput());
-                        parserOutput.setRoot(fileManager.getCurrent().getParser().toTreeNode());
+                        changeTabAction(oldValue, newValue);
                     }
                 }
         );
+
         filesTabs.getTabs().forEach(tab -> {
             tab.setOnClosed(e -> {
                 fileManager.remove(tab);
             });
         });
-        addFile.setOnAction(e -> {
-            fileManager.getCurrent().setContent(editor.getText());
-            fileManager.newFile();
+
+        addFile.setOnAction(AE -> this.addFileAction(AE));
+    }
+
+    public void addFileAction(ActionEvent AE){
+        fileManager.getCurrent().setContent(editor.getText());
+        fileManager.newFile();
+        filesTabs.getTabs().add(fileManager.getCurrent().getTab());
+        editor.replaceText(0,editor.getText().length(),"");
+        filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
+    }
+
+    public void changeTabAction(Tab oldValue, Tab newValue){
+        if(oldValue != null)
+            oldValue.setContent(null);
+        fileManager.getCurrent().setContent(editor.getText());
+        fileManager.setCurrent(newValue);
+        editor.replaceText(0,editor.getText().length(),fileManager.getCurrent().getContent());
+        fileManager.getCurrent().getTab().setContent(editor);
+
+        //Outputs
+        lexicOutput.setText(fileManager.getCurrent().getLexerOutput());
+        if(fileManager.getCurrent().getParser() != null)
+            parserOutput.setRoot(fileManager.getCurrent().getParser().toTreeNode());
+        else
+            parserOutput.setRoot(null);
+    }
+
+    public Boolean lexicAction(ActionEvent AE){
+        fileManager.getCurrent().setContent(editor.getText());
+        if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
+            String output = COMPILER.getLexer().run(fileManager.getCurrent().getFile().getAbsolutePath());
+            int errorIndex = output.indexOf("lexer.LexerError");
+            if(errorIndex != -1){
+                console.appendText(output.substring(errorIndex));
+                fileManager.getCurrent().setLexerOutput("");
+                lexicOutput.setText("Error.");
+            }else {
+                fileManager.getCurrent().setLexerOutput(output);
+                lexicOutput.setText(output);
+                console.appendText("Lexic analyzer successfully executed.\n");
+                return true;
+            }
+        }else{
+            System.out.println("Not saved");
+        }
+        return false;
+    }
+
+    public Boolean syntacticAction(ActionEvent AE){
+        if(!this.lexicAction(AE)) return false;
+        fileManager.getCurrent().setContent(editor.getText());
+        if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
+            String output = COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath());
+            int errorIndex = output.indexOf("parser.ParseError.ParseError");
+            if(errorIndex != -1){
+                console.appendText(output.substring(errorIndex));
+                fileManager.getCurrent().setParser(null);
+                parserOutput.setRoot(null);
+            }else {
+                AST ast = new AST(output);
+                fileManager.getCurrent().setParser(ast);
+                parserOutput.setRoot(ast.toTreeNode());
+                console.appendText("Syntactic analyzer successfully executed.\n");
+                return true;
+            }
+        }else{
+            System.out.println("Not saved");
+        }
+        return false;
+    }
+
+    public void openButtonAction(ActionEvent AE){
+        if(fileManager.openFile(mainPane.getScene().getWindow())) {
             filesTabs.getTabs().add(fileManager.getCurrent().getTab());
-            editor.replaceText(0,editor.getText().length(),"");
             filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
-        });
+            editor.replaceText(0, editor.getText().length(), fileManager.getCurrent().getContent());
+        }else{
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Error abriendo el archivo.");
+            a.show();
+        }
+    }
+
+    public void saveButtonAction(ActionEvent AE){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Action not implemented yet.");
+        a.show();
     }
 
     public void shutdown(){

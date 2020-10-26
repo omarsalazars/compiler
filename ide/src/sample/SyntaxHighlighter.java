@@ -29,7 +29,7 @@ public class SyntaxHighlighter {
     };
 
     private static final String[] TYPE = new String[]{
-            "int", "bool", "float"
+            "int", "bool", "real"
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";

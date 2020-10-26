@@ -22,7 +22,7 @@ try:
     for tok in lx.tokens():
         tokens.append(tok)
 except LexerError as err:
-        print('LexerError at position %s' % err.pos)
+    raise err
 
 parser = Parser(tokens)
 abstractTree = parser.parse()
