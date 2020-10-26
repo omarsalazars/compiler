@@ -21,6 +21,8 @@ public class FileEditor{
     public FileEditor(String name) {
         this.content = "";
         this.name = name;
+        this.parser = null;
+        this.lexerOutput = "";
         tab = new Tab(name);
     }
 
@@ -55,6 +57,22 @@ public class FileEditor{
 
     public void setContent(String content){
         this.content = content;
+    }
+
+    public void setParser(AST ast){
+        this.parser = ast;
+    }
+
+    public AST getParser(){
+        return this.parser;
+    }
+
+    public void setLexerOutput(String lexerOutput){
+        this.lexerOutput = lexerOutput;
+    }
+
+    public String getLexerOutput(){
+        return this.lexerOutput;
     }
 
     public Boolean save(Window window){

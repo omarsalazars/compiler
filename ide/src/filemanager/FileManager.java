@@ -2,6 +2,8 @@ package filemanager;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -69,6 +71,29 @@ public class FileManager{
         return index;
     }
 
+    public Boolean openFile(Window window){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Abrir archivo");
+        File file = fileChooser.showOpenDialog(window);
+        if(file != null){
+            try {
+                for (FileEditor it : files) {
+                    if (it.getFile().getAbsolutePath().equals(file.getAbsolutePath()))
+                        throw new Exception("File already opened");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                return false;
+            }
+            FileEditor fe = new FileEditor(file.getName());
+            fe.setFile(file);
+            files.add(fe);
+            this.current = files.size()-1;
+            fe.setContent(this.getFileContents(file));
+        }
+        return file != null;
+    }
+
     public void saveRecents(){
         FileWriter writer = null;
         try{
@@ -76,7 +101,6 @@ public class FileManager{
             f.createNewFile();
             writer = new FileWriter(f);
             for(FileEditor fileEditor : this.files){
-                System.out.println(fileEditor);
                 if(fileEditor.getFile()!=null) {
                     writer.write(fileEditor.getFile().getAbsolutePath()+"\n");
                 }

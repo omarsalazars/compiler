@@ -14,9 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-
-import java.awt.event.ActionEvent;
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +56,18 @@ public class Controller {
         HIGHLIGHTER = new SyntaxHighlighter(editor);
         setHighlighter();
 
+        openButton.setOnAction(e -> {
+            if(fileManager.openFile(mainPane.getScene().getWindow())) {
+                filesTabs.getTabs().add(fileManager.getCurrent().getTab());
+                filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
+                editor.replaceText(0, editor.getText().length(), fileManager.getCurrent().getContent());
+            }else{
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Error abriendo el archivo. El archivo está siendo utilizado por este o por otro programa.");
+                a.show();
+            }
+        });
+
         compile.setOnAction(actionEvent -> {
             fileManager.getCurrent().save(mainPane.getScene().getWindow());
             COMPILER.Compile(fileManager.getCurrent().getFile().getAbsolutePath());
@@ -67,7 +76,9 @@ public class Controller {
         lexic.setOnAction( actionEvent -> {
             fileManager.getCurrent().setContent(editor.getText());
             if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
-                lexicOutput.setText(COMPILER.getLexer().run(fileManager.getCurrent().getFile().getAbsolutePath()));
+                String lexerOutput = COMPILER.getLexer().run(fileManager.getCurrent().getFile().getAbsolutePath());
+                fileManager.getCurrent().setLexerOutput(lexerOutput);
+                lexicOutput.setText(lexerOutput);
             }else{
                 System.out.println("Not saved");
             }
@@ -76,10 +87,8 @@ public class Controller {
         syntactic.setOnAction( actionEvent -> {
             fileManager.getCurrent().setContent(editor.getText());
             if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
-                String json = COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath());
-                System.out.println(json);
-                //AST ast = new AST(COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath()));
-                AST ast = new AST(json);
+                AST ast = new AST(COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath()));
+                fileManager.getCurrent().setParser(ast);
                 parserOutput.setRoot(ast.toTreeNode());
             }else{
                 System.out.println("Not saved");
@@ -98,6 +107,10 @@ public class Controller {
                         fileManager.setCurrent(newValue);
                         editor.replaceText(0,editor.getText().length(),fileManager.getCurrent().getContent());
                         fileManager.getCurrent().getTab().setContent(editor);
+
+                        //Outputs
+                        lexicOutput.setText(fileManager.getCurrent().getLexerOutput());
+                        parserOutput.setRoot(fileManager.getCurrent().getParser().toTreeNode());
                     }
                 }
         );
@@ -117,7 +130,6 @@ public class Controller {
 
     public void shutdown(){
         fileManager.saveRecents();
-        System.out.println("cerrando");
         Platform.exit();
     }
 
