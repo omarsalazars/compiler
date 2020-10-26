@@ -14,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+
+import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +45,15 @@ public class Controller {
     public void initialize(){
         filesTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
         fileManager = new FileManager();
+        fileManager.loadRecents(filesTabs);
+        if(fileManager.getFiles().size() == 0) {
+            fileManager.newFile();
+            filesTabs.getTabs().add(fileManager.getCurrent().getTab());
+            filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
+        }
+        editor.replaceText(0,editor.getText().length(),fileManager.getCurrent().getContent());
+        fileManager.getCurrent().getTab().setContent(editor);
+
         lexicOutput.setEditable(false);
         COMPILER = new Compiler();
         HIGHLIGHTER = new SyntaxHighlighter(editor);
@@ -64,18 +76,16 @@ public class Controller {
         syntactic.setOnAction( actionEvent -> {
             fileManager.getCurrent().setContent(editor.getText());
             if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
-                AST ast = new AST(COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath()));
+                String json = COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath());
+                System.out.println(json);
+                //AST ast = new AST(COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath()));
+                AST ast = new AST(json);
                 parserOutput.setRoot(ast.toTreeNode());
             }else{
                 System.out.println("Not saved");
             }
         });
         semantic.setOnAction( actionEvent -> COMPILER.getSemantic().run(fileManager.getCurrent().getFile().getAbsolutePath()) );
-
-        fileManager.newFile();
-        filesTabs.getTabs().add(fileManager.getCurrent().getTab());
-        filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
-        fileManager.getCurrent().getTab().setContent(editor);
 
         //Files
         filesTabs.getSelectionModel().selectedItemProperty().addListener(
@@ -103,7 +113,12 @@ public class Controller {
             editor.replaceText(0,editor.getText().length(),"");
             filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
         });
+    }
 
+    public void shutdown(){
+        fileManager.saveRecents();
+        System.out.println("cerrando");
+        Platform.exit();
     }
 
     private void setHighlighter(){

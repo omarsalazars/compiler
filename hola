@@ -1,6 +1,12 @@
 main{
-	int a;
-	if(a>v){
-		print a;
+	int a, x, y;
+	real b, c;
+	if(x>y){
+		a = 10;
+		while(a+b){
+			x=20;
+		}
 	}
+	read x;
+
 }

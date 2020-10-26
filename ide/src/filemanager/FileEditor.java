@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class FileEditor {
+public class FileEditor{
 
     private String name;
     private Tab tab;
@@ -30,6 +30,7 @@ public class FileEditor {
 
     public void setName(String name) {
         this.name = name;
+        this.tab.setText(this.name);
     }
 
     public Tab getTab() {

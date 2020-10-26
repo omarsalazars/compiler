@@ -1,9 +1,13 @@
 package filemanager;
 
 import javafx.scene.control.Tab;
-import java.util.ArrayList;
+import javafx.scene.control.TabPane;
 
-public class FileManager {
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class FileManager{
 
     private ArrayList<FileEditor> files;
     private Integer untitledCount = 0;
@@ -65,4 +69,64 @@ public class FileManager {
         return index;
     }
 
+    public void saveRecents(){
+        FileWriter writer = null;
+        try{
+            File f = new File("recents.txt");
+            f.createNewFile();
+            writer = new FileWriter(f);
+            for(FileEditor fileEditor : this.files){
+                System.out.println(fileEditor);
+                if(fileEditor.getFile()!=null) {
+                    writer.write(fileEditor.getFile().getAbsolutePath()+"\n");
+                }
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                writer.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void loadRecents(TabPane tabPane){
+        Scanner scanner = null;
+        try{
+            File f = new File("recents.txt");
+            scanner = new Scanner(f);
+            while(scanner.hasNextLine()){
+                String path = scanner.nextLine();
+                FileEditor fe = new FileEditor("");
+                fe.setFile(new File(path));
+                fe.setName(fe.getFile().getName());
+                fe.setContent(this.getFileContents(fe.getFile()));
+                files.add(fe);
+                tabPane.getTabs().add(fe.getTab());
+                this.current = files.size()-1;
+                tabPane.getSelectionModel().select(fe.getTab());
+            }
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    private String getFileContents(File f){
+        Scanner scanner = null;
+        String content = "";
+        try{
+            scanner = new Scanner(f);
+            while(scanner.hasNextLine()){
+                content += scanner.nextLine();
+                if(scanner.hasNextLine()){
+                    content += "\n";
+                }
+            }
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        return content;
+    }
 }

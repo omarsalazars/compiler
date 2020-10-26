@@ -10,13 +10,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        Parent root = loader.load();
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.getScene().getStylesheets().add(getClass().getResource("custom-keywords.css").toExternalForm());
+
+        Controller controller = loader.getController();
+        primaryStage.setOnHidden(e -> controller.shutdown());
+
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
