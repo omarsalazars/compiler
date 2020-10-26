@@ -124,8 +124,10 @@ public class FileManager{
             scanner = new Scanner(f);
             while(scanner.hasNextLine()){
                 String path = scanner.nextLine();
+                File cf = new File(path);
+                if(!cf.exists()) continue;
                 FileEditor fe = new FileEditor("");
-                fe.setFile(new File(path));
+                fe.setFile(cf);
                 fe.setName(fe.getFile().getName());
                 fe.setContent(this.getFileContents(fe.getFile()));
                 files.add(fe);

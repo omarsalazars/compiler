@@ -1,2 +1,1 @@
-/home/omar/Documents/compiler/hola
 /home/omar/Documents/compiler/intento
