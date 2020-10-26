@@ -157,9 +157,9 @@ public class Controller {
     public void openButtonAction(ActionEvent AE){
         if(fileManager.openFile(mainPane.getScene().getWindow())) {
             filesTabs.getTabs().add(fileManager.getCurrent().getTab());
-            filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
             fileManager.getCurrent().getTab().setContent(editor);
             editor.replaceText(0, editor.getText().length(), fileManager.getCurrent().getContent());
+            filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
         }else{
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("Error abriendo el archivo.");

@@ -89,9 +89,9 @@ public class FileManager{
             }
             FileEditor fe = new FileEditor(file.getName());
             fe.setFile(file);
+            fe.setContent(this.getFileContents(file));
             files.add(fe);
             this.current = files.size()-1;
-            fe.setContent(this.getFileContents(file));
         }
         return file != null;
     }
