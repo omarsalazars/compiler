@@ -79,6 +79,7 @@ public class FileManager{
         if(file != null){
             try {
                 for (FileEditor it : files) {
+                    if(it.getFile() == null) continue;
                     if (it.getFile().getAbsolutePath().equals(file.getAbsolutePath()))
                         throw new Exception("File already opened");
                 }

@@ -88,7 +88,6 @@ public class Controller {
     }
 
     public void addFileAction(ActionEvent AE){
-        fileManager.getCurrent().setContent(editor.getText());
         fileManager.newFile();
         filesTabs.getTabs().add(fileManager.getCurrent().getTab());
         editor.replaceText(0,editor.getText().length(),"");
@@ -159,6 +158,7 @@ public class Controller {
         if(fileManager.openFile(mainPane.getScene().getWindow())) {
             filesTabs.getTabs().add(fileManager.getCurrent().getTab());
             filesTabs.getSelectionModel().select(fileManager.getCurrent().getTab());
+            fileManager.getCurrent().getTab().setContent(editor);
             editor.replaceText(0, editor.getText().length(), fileManager.getCurrent().getContent());
         }else{
             Alert a = new Alert(Alert.AlertType.ERROR);
