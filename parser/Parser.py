@@ -1,4 +1,5 @@
 from lexer.Rules import TokenType
+from lexer.Token import Token
 from .ParseError import ParseError
 from .AST import *
 
@@ -12,6 +13,10 @@ class Parser:
         if self.tokenPos < len(self.tokens)-1:
             self.tokenPos = self.tokenPos+1
             self.current = self.tokens[self.tokenPos]
+        if self.current.type == TokenType.COMMENT:
+            while self.current.type == TokenType.COMMENT and self.tokenPos < len(self.tokens)-1:
+                self.tokenPos = self.tokenPos+1
+                self.current = self.tokens[self.tokenPos]
 
     def accept(self, token):
         if isinstance(token, list):
@@ -74,8 +79,9 @@ class Parser:
     #TYPE -> int | real | boolean
     def Type(self):
         first = [TokenType.INT, TokenType.REAL, TokenType.BOOLEAN]
+        type = self.current
         self.expect(first)
-        return TypeNode(self.current)
+        return TypeNode(type)
 
     #VARS -> identifier { , identifier }
     def Vars(self):
@@ -91,7 +97,8 @@ class Parser:
     def Statements(self):
         first = [ 
             TokenType.IF, TokenType.WHILE, TokenType.READ,
-            TokenType.PRINT, TokenType.LB, TokenType.IDENTIFIER 
+            TokenType.PRINT, TokenType.LB, TokenType.IDENTIFIER,
+            TokenType.DO
         ]
         statements = []
         while self.match(first):
@@ -113,29 +120,45 @@ class Parser:
             statement = self.Block()
         elif self.match(TokenType.IDENTIFIER):
             statement = self.Assign()
+        elif self.match(TokenType.DO):
+            statement = self.DoUntil()
         else:
             raise ParseError(self.current.pos, "Unexpected token")
         return statement
 
-    #IF_STMT -> if ( RELATIONAL_EXPRESSION ) BLOCK_STMT { ELSE_STMT }
+    #IF_STMT ->
+    # if ( RELATIONAL_EXPRESSION ) then STATEMENTS end
+    # if ( RELATIONAL_EXPRESSION ) then STATEMENTS else STATEMENTS end
     def If(self):
         self.expect(TokenType.IF)
         self.expect(TokenType.LP)
         relationalExpression = self.RelationalExpression()
         self.expect(TokenType.RP)
-        block = self.Block()
+        self.expect(TokenType.THEN)
+        statements = self.Statements()
         if self.match(TokenType.ELSE):
             elseNode = self.Else()
-            return IfNode(relationalExpression, block, elseNode)
-        return IfNode(relationalExpression, block)
+            return IfNode(relationalExpression, statements, elseNode)
+        self.expect(TokenType.END)
+        return IfNode(relationalExpression, statements)
 
     def Else(self):
         self.expect(TokenType.ELSE)
-        if self.match(TokenType.IF):
-            return self.If()
-        elif self.match(TokenType.LB):
-            return self.Block()
-        raise ParseError(self.current.pos, "Unexpected token")
+        statements = self.Statements()
+        self.expect(TokenType.END)
+        self.expect(TokenType.SEMICOLON)
+        return statements
+
+    #DO_STMT -> do STATEMENTS until( RELATIONAL_EXPRESSION ) ;
+    def DoUntil(self):
+        self.expect(TokenType.DO)
+        statements = self.Statements()
+        self.expect(TokenType.UNTIL)
+        self.expect(TokenType.LP)
+        relationalExpression = self.RelationalExpression()
+        self.expect(TokenType.RP)
+        self.expect(TokenType.SEMICOLON)
+        return DoUntilNode(statements, relationalExpression)
 
     #WHILE_STMT -> while ( RELATIONAL_EXPRESSION ) BLOCK_STMT
     def While(self):
@@ -172,10 +195,22 @@ class Parser:
     def Assign(self):
         left = self.current
         self.expect(TokenType.IDENTIFIER)
-        self.expect(TokenType.EQUALS)
-        relationalExpression = self.RelationalExpression()
+        oneToken = Token(TokenType.NUMBER, '1', self.current.pos)
+        node = None
+        if self.match(TokenType.INC):
+            self.expect(TokenType.INC)
+            plusToken = Token(TokenType.PLUS, '+', self.current.pos)
+            node = AssignNode(left, BinaryOperationNode(left, plusToken, oneToken))
+        elif self.match(TokenType.DEC):
+            self.expect(TokenType.DEC)
+            minusToken = Token(TokenType.MINUS, '-', self.current.pos)
+            node = AssignNode(left, BinaryOperationNode(left, minusToken, oneToken))
+        else:
+            self.expect(TokenType.EQUALS)
+            relationalExpression = self.RelationalExpression()
+            node = AssignNode(left, relationalExpression)
         self.expect(TokenType.SEMICOLON)
-        return AssignNode(left, relationalExpression)
+        return node
     
     #RELATIONAL_EXPRESSION -> EXPRESSION { RELOP EXPRESSION }*
     def RelationalExpression(self):

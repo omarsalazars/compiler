@@ -1,7 +1,11 @@
+from lexer.Token import Token
 from lexer.Lexer import Lexer
 from lexer.LexerError import LexerError
 from lexer.Rules import rules
+from parser.Parser import Parser
+from semantic.Semantic import Semantic
 import sys
+import json
 
 lx = Lexer(rules, skip_whitespace=True)
 
@@ -21,5 +25,8 @@ try:
 except LexerError as err:
     raise err
 
-for tok in tokens:
-    print(tok)
+parser = Parser(tokens)
+abstractTree = parser.parse()
+semantic = Semantic(abstractTree)
+json_str = json.dumps(abstractTree, indent=4)
+print(json_str)

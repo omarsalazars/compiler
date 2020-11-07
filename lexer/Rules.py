@@ -2,20 +2,24 @@ from enum import Enum
 class TokenType(str, Enum):
     MAIN = "main"
     IF = "if"
+    THEN = "then"
     ELSE = "else"
+    END = "end"
+    DO = "do"
     WHILE = "while"
+    UNTIL = "until"
     REAL = "real"
     INT = "int"
     BOOLEAN = "boolean"
-    READ = "read"
-    PRINT = "print"
+    READ = "cin"
+    PRINT = "cout"
     SFLOAT = "signed float"
     FLOAT = "float"
     SNUMBER = "signed number"
     NUMBER = "number"
     IDENTIFIER = "identifier"
     INC = "++"
-    DEC =  "--"
+    DEC = "--"
     PLUS = "+"
     MINUS = "-"
     MULTIPLY = "*"
@@ -29,29 +33,34 @@ class TokenType(str, Enum):
     LET = "<="
     ET = "=="
     NE = "!="
-    EQUALS = "="
+    EQUALS = ":="
     SEMICOLON = ";"
     LB = "{"
     RB = "}"
     COMMA = ","
+    COMMENT = "comment"
 
 
 rules = [
     #Reserved Words
+    ('\/\/[^\n\r]*?(?:\*\)|[\n\r])', TokenType.COMMENT),
     ('main', TokenType.MAIN),
     ('if', TokenType.IF),
+    ('then', TokenType.THEN),
     ('else', TokenType.ELSE),
+    ('end', TokenType.END),
     ('while', TokenType.WHILE),
+    ('do', TokenType.DO),
+    ('until', TokenType.UNTIL),
     ('real', TokenType.REAL),
     ('int', TokenType.INT),
     ('boolean', TokenType.BOOLEAN),
-    ('read', TokenType.READ),
-    ('print', TokenType.PRINT),
+    ('cin', TokenType.READ),
+    ('cout', TokenType.PRINT),
     #Floats
     ('-\d+\.\d+', TokenType.SFLOAT),
     ('\d+\.\d+', TokenType.FLOAT),
     #Integers
-    ('-\d+', TokenType.SNUMBER),
     ('\d+', TokenType.NUMBER),
     #Identifiers
     ('[a-zA-Z_]\w*', TokenType.IDENTIFIER),
@@ -77,7 +86,7 @@ rules = [
     ('==', TokenType.ET),
     ('!=', TokenType.NE),
     #Equals
-    ('=', TokenType.EQUALS),
+    (':=', TokenType.EQUALS),
     #Semicolon
     (';', TokenType.SEMICOLON),
     #Comma
