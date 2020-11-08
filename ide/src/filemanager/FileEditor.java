@@ -15,13 +15,14 @@ public class FileEditor{
     private Tab tab;
     private File file;
     private String content;
-    private AST parser;
+    private AST parser, semantic;
     private String lexerOutput;
 
     public FileEditor(String name) {
         this.content = "";
         this.name = name;
         this.parser = null;
+        this.semantic = null;
         this.lexerOutput = "";
         tab = new Tab(name);
     }
@@ -65,6 +66,14 @@ public class FileEditor{
 
     public AST getParser(){
         return this.parser;
+    }
+
+    public void setSemantic(AST ast){
+        this.semantic = ast;
+    }
+
+    public AST getSemantic(){
+        return this.semantic;
     }
 
     public void setLexerOutput(String lexerOutput){

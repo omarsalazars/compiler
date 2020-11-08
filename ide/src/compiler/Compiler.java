@@ -12,6 +12,7 @@ public class Compiler {
         projectPath = System.getProperty("user.dir");
         lex = new LexicalPhase();
         parser = new SyntacticPhase();
+        semantic = new SemanticPhase();
     }
 
     public LexicalPhase getLexer() {
