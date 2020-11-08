@@ -90,11 +90,16 @@ class IfNode(AST):
 class DoUntilNode(AST):
     def __init__(self, statements, relationalExpression):
         super().__init__()
-        self.statements = statements
+        self.prod = "do-until statement"
         self.relationalExpression = relationalExpression
+        self.statements = statements
 
     def interpret(self, symtable):
-        pass
+        if hasattr(self.relationalExpression, "interpret"):
+            self.relationalExpression.interpret(symtable)
+        for stmt in self.statements:
+            if hasattr(stmt, "interpret"):
+                stmt.interpret(symtable)
 
 class WhileNode(AST):
     def __init__(self, relationalExpression, block):
@@ -277,10 +282,15 @@ class RelationalExpressionNode(AST):
         self.right = right
 
     def interpret(self, symtable):
-        self.left.interpret(symtable)
-        self.right.interpret(symtable)
+        if hasattr(self.left, "interpret"):
+            self.left.interpret(symtable)
+        if hasattr(self.right, "interpret"):
+            self.right.interpret(symtable)
         self.type = TokenType.BOOLEAN
-        self.val = self.operacionRelacional(self.left, self.op, self.right)
+        if self.left.val is None or self.right.val is None:
+            self.val = None
+        else:
+            self.val = self.operacionRelacional(self.left, self.op, self.right)
 
     def operacionRelacional(self, left, op, right):
         if op.type == TokenType.LT:

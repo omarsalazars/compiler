@@ -14,13 +14,13 @@ main{
 	y:=14.54;
 	if (2>3) then//Error en menor
 		w:=w+ 3;
-	  else
-	      if(4>2) then
-		     b:=3.2;
-	       else
-		   c:=5.0;
-	       end;
-	       v := v + 1;
+    else
+        if(4>2) then
+		    b:=3.2;
+	    else
+		    c:=5.0;
+	    end;
+	    v := v + 1;
 	end;
 	a++;
 	c--;
