@@ -27,7 +27,7 @@ public class Controller {
     @FXML
     TextArea lexicOutput, console;
     @FXML
-    TreeView parserOutput;
+    TreeView parserOutput, semanticOutput;
     @FXML
     TabPane filesTabs;
     @FXML
@@ -66,7 +66,7 @@ public class Controller {
 
         lexic.setOnAction( actionEvent -> lexicAction(actionEvent));
         syntactic.setOnAction( actionEvent -> syntacticAction(actionEvent));
-        semantic.setOnAction( actionEvent -> COMPILER.getSemantic().run(fileManager.getCurrent().getFile().getAbsolutePath()) );
+        semantic.setOnAction( actionEvent -> semanticAction(actionEvent));
 
         //Files
         filesTabs.getSelectionModel().selectedItemProperty().addListener(
@@ -145,6 +145,30 @@ public class Controller {
                 AST ast = new AST(output);
                 fileManager.getCurrent().setParser(ast);
                 parserOutput.setRoot(ast.toTreeNode());
+                console.appendText("Syntactic analyzer successfully executed.\n");
+                return true;
+            }
+        }else{
+            System.out.println("Not saved");
+        }
+        return false;
+    }
+
+    public Boolean semanticAction(ActionEvent AE){
+        if(!this.lexicAction(AE)) return false;
+        if(!this.syntacticAction(AE)) return false;
+        fileManager.getCurrent().setContent(editor.getText());
+        if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
+            String output = COMPILER.getSemantic().run(fileManager.getCurrent().getFile().getAbsolutePath());
+            int errorIndex = output.indexOf("semantic.SemanticError.SemanticError");
+            if(errorIndex != -1){
+                console.appendText(output.substring(errorIndex));
+                fileManager.getCurrent().setSemantic(null);
+                semanticOutput.setRoot(null);
+            }else {
+                AST ast = new AST(output);
+                fileManager.getCurrent().setSemantic(ast);
+                semanticOutput.setRoot(ast.toTreeNode());
                 console.appendText("Syntactic analyzer successfully executed.\n");
                 return true;
             }
