@@ -1,0 +1,95 @@
+{
+    "loc": 7,
+    "x": {
+        "type": {
+            "token": {
+                "type": "int",
+                "val": "int",
+                "pos": 7
+            }
+        },
+        "lines": [
+            11
+        ],
+        "val": 7,
+        "loc": 0
+    },
+    "y": {
+        "type": {
+            "token": {
+                "type": "int",
+                "val": "int",
+                "pos": 7
+            }
+        },
+        "lines": [
+            13
+        ],
+        "val": 14.54,
+        "loc": 1
+    },
+    "z": {
+        "type": {
+            "token": {
+                "type": "int",
+                "val": "int",
+                "pos": 7
+            }
+        },
+        "lines": [
+            15
+        ],
+        "val": 64.0,
+        "loc": 2
+    },
+    "a": {
+        "type": {
+            "token": {
+                "type": "real",
+                "val": "real",
+                "pos": 21
+            }
+        },
+        "lines": [
+            26
+        ],
+        "val": 61.33333333333333,
+        "loc": 3
+    },
+    "b": {
+        "type": {
+            "token": {
+                "type": "real",
+                "val": "real",
+                "pos": 21
+            }
+        },
+        "lines": [
+            29
+        ],
+        "val": 0,
+        "loc": 4
+    },
+    "c": {
+        "type": {
+            "token": {
+                "type": "real",
+                "val": "real",
+                "pos": 21
+            }
+        },
+        "lines": [
+            32
+        ],
+        "val": -1,
+        "loc": 5
+    },
+    "suma": {
+        "type": "int",
+        "lines": [
+            36
+        ],
+        "val": 45,
+        "loc": 6
+    }
+}

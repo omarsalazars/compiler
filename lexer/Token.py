@@ -1,5 +1,3 @@
-from .Rules import TokenType
-
 class Token(dict):
     def __init__(self, type, val, pos):
         super().__init__()
