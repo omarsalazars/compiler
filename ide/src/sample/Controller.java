@@ -120,8 +120,9 @@ public class Controller {
                 fileManager.getCurrent().setLexerOutput("");
                 lexicOutput.setText("Error.");
             }else {
-                fileManager.getCurrent().setLexerOutput(output);
-                lexicOutput.setText(output);
+                String tokens = COMPILER.getLexer().readOutput(COMPILER.getLexer().outPath);
+                fileManager.getCurrent().setLexerOutput(tokens);
+                lexicOutput.setText(tokens);
                 console.appendText("Lexic analyzer successfully executed.\n");
                 return true;
             }
@@ -142,7 +143,8 @@ public class Controller {
                 fileManager.getCurrent().setParser(null);
                 parserOutput.setRoot(null);
             }else {
-                AST ast = new AST(output);
+                String json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().outPath);
+                AST ast = new AST(json);
                 fileManager.getCurrent().setParser(ast);
                 parserOutput.setRoot(ast.toTreeNode());
                 console.appendText("Syntactic analyzer successfully executed.\n");
@@ -166,7 +168,8 @@ public class Controller {
                 fileManager.getCurrent().setSemantic(null);
                 semanticOutput.setRoot(null);
             }else {
-                AST ast = new AST(output);
+                String json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().outPath);
+                AST ast = new AST(json);
                 fileManager.getCurrent().setSemantic(ast);
                 semanticOutput.setRoot(ast.toTreeNode());
                 console.appendText("Syntactic analyzer successfully executed.\n");

@@ -1,8 +1,7 @@
 package compiler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Scanner;
 
 public abstract class CompilerPhase {
 
@@ -24,6 +23,24 @@ public abstract class CompilerPhase {
 
     public String run(String filePath){
         return this.executeProcess(this.path, filePath);
+    }
+
+    public String readOutput(String filepath){
+        Scanner scanner = null;
+        String content = "";
+        File f = new File(filepath);
+        try{
+            scanner = new Scanner(f);
+            while(scanner.hasNextLine()){
+                content += scanner.nextLine();
+                if(scanner.hasNextLine()){
+                    content += "\n";
+                }
+            }
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+        return content;
     }
 
     private String executeProcess(String programPath, String filePath){
