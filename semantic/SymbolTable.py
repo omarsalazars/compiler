@@ -29,7 +29,8 @@ class SymbolTable(dict):
             # raise SemanticError("Variable already defined")
             pass
         else:
-            self[name] = {'type': type, 'lines': [lineno], 'val': 0}
+            self[name] = {'type': type, 'lines': [lineno], 'val': 0, 'loc': self.loc}
+            self.loc = self.loc + 1
         pass
 
     # Associate an attribute with a given entry

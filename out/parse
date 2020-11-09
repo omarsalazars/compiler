@@ -1,0 +1,1056 @@
+{
+    "declarations": [
+        {
+            "type": {
+                "token": {
+                    "type": "int",
+                    "val": "int",
+                    "pos": 7
+                }
+            },
+            "vars": [
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "x",
+                        "pos": 11
+                    }
+                },
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "y",
+                        "pos": 13
+                    }
+                },
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "z",
+                        "pos": 15
+                    }
+                },
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "z",
+                        "pos": 17
+                    }
+                }
+            ]
+        },
+        {
+            "type": {
+                "token": {
+                    "type": "real",
+                    "val": "real",
+                    "pos": 21
+                }
+            },
+            "vars": [
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "a",
+                        "pos": 26
+                    }
+                },
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "b",
+                        "pos": 29
+                    }
+                },
+                {
+                    "token": {
+                        "type": "identifier",
+                        "val": "c",
+                        "pos": 32
+                    }
+                }
+            ]
+        }
+    ],
+    "statements": [
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "suma",
+                "pos": 36
+            },
+            "expression": {
+                "token": {
+                    "type": "number",
+                    "val": "45",
+                    "pos": 42
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "x",
+                "pos": 47
+            },
+            "expression": {
+                "token": {
+                    "type": "float",
+                    "val": "32.32",
+                    "pos": 50
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "x",
+                "pos": 58
+            },
+            "expression": {
+                "token": {
+                    "type": "number",
+                    "val": "23",
+                    "pos": 61
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "y",
+                "pos": 66
+            },
+            "expression": {
+                "left": {
+                    "left": {
+                        "token": {
+                            "type": "number",
+                            "val": "2",
+                            "pos": 69
+                        }
+                    },
+                    "op": {
+                        "type": "+",
+                        "val": "+",
+                        "pos": 70
+                    },
+                    "right": {
+                        "token": {
+                            "type": "number",
+                            "val": "3",
+                            "pos": 71
+                        }
+                    }
+                },
+                "op": {
+                    "type": "-",
+                    "val": "-",
+                    "pos": 72
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "1",
+                        "pos": 73
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "z",
+                "pos": 77
+            },
+            "expression": {
+                "left": {
+                    "token": {
+                        "type": "identifier",
+                        "val": "y",
+                        "pos": 80
+                    }
+                },
+                "op": {
+                    "type": "+",
+                    "val": "+",
+                    "pos": 81
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "7",
+                        "pos": 82
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "y",
+                "pos": 86
+            },
+            "expression": {
+                "left": {
+                    "token": {
+                        "type": "identifier",
+                        "val": "y",
+                        "pos": 89
+                    }
+                },
+                "op": {
+                    "type": "+",
+                    "val": "+",
+                    "pos": 91
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "1",
+                        "pos": 93
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "a",
+                "pos": 97
+            },
+            "expression": {
+                "left": {
+                    "left": {
+                        "left": {
+                            "left": {
+                                "token": {
+                                    "type": "float",
+                                    "val": "24.0",
+                                    "pos": 100
+                                }
+                            },
+                            "op": {
+                                "type": "+",
+                                "val": "+",
+                                "pos": 105
+                            },
+                            "right": {
+                                "token": {
+                                    "type": "number",
+                                    "val": "4",
+                                    "pos": 107
+                                }
+                            }
+                        },
+                        "op": {
+                            "type": "-",
+                            "val": "-",
+                            "pos": 109
+                        },
+                        "right": {
+                            "left": {
+                                "left": {
+                                    "token": {
+                                        "type": "number",
+                                        "val": "1",
+                                        "pos": 111
+                                    }
+                                },
+                                "op": {
+                                    "type": "/",
+                                    "val": "/",
+                                    "pos": 113
+                                },
+                                "right": {
+                                    "token": {
+                                        "type": "number",
+                                        "val": "3",
+                                        "pos": 115
+                                    }
+                                }
+                            },
+                            "op": {
+                                "type": "*",
+                                "val": "*",
+                                "pos": 117
+                            },
+                            "right": {
+                                "token": {
+                                    "type": "number",
+                                    "val": "2",
+                                    "pos": 119
+                                }
+                            }
+                        }
+                    },
+                    "op": {
+                        "type": "+",
+                        "val": "+",
+                        "pos": 121
+                    },
+                    "right": {
+                        "token": {
+                            "type": "number",
+                            "val": "34",
+                            "pos": 123
+                        }
+                    }
+                },
+                "op": {
+                    "type": "-",
+                    "val": "-",
+                    "pos": 126
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "1",
+                        "pos": 128
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "x",
+                "pos": 132
+            },
+            "expression": {
+                "left": {
+                    "left": {
+                        "token": {
+                            "type": "number",
+                            "val": "5",
+                            "pos": 136
+                        }
+                    },
+                    "op": {
+                        "type": "-",
+                        "val": "-",
+                        "pos": 138
+                    },
+                    "right": {
+                        "token": {
+                            "type": "number",
+                            "val": "3",
+                            "pos": 140
+                        }
+                    }
+                },
+                "op": {
+                    "type": "*",
+                    "val": "*",
+                    "pos": 143
+                },
+                "right": {
+                    "left": {
+                        "token": {
+                            "type": "number",
+                            "val": "8",
+                            "pos": 146
+                        }
+                    },
+                    "op": {
+                        "type": "/",
+                        "val": "/",
+                        "pos": 148
+                    },
+                    "right": {
+                        "token": {
+                            "type": "number",
+                            "val": "2",
+                            "pos": 150
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "y",
+                "pos": 156
+            },
+            "expression": {
+                "left": {
+                    "left": {
+                        "left": {
+                            "token": {
+                                "type": "number",
+                                "val": "5",
+                                "pos": 160
+                            }
+                        },
+                        "op": {
+                            "type": "+",
+                            "val": "+",
+                            "pos": 162
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "3",
+                                "pos": 164
+                            }
+                        }
+                    },
+                    "op": {
+                        "type": "-",
+                        "val": "-",
+                        "pos": 166
+                    },
+                    "right": {
+                        "left": {
+                            "left": {
+                                "token": {
+                                    "type": "number",
+                                    "val": "2",
+                                    "pos": 168
+                                }
+                            },
+                            "op": {
+                                "type": "*",
+                                "val": "*",
+                                "pos": 170
+                            },
+                            "right": {
+                                "token": {
+                                    "type": "number",
+                                    "val": "4",
+                                    "pos": 172
+                                }
+                            }
+                        },
+                        "op": {
+                            "type": "/",
+                            "val": "/",
+                            "pos": 174
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "7",
+                                "pos": 177
+                            }
+                        }
+                    }
+                },
+                "op": {
+                    "type": "-",
+                    "val": "-",
+                    "pos": 179
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "9",
+                        "pos": 181
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "z",
+                "pos": 185
+            },
+            "expression": {
+                "left": {
+                    "left": {
+                        "token": {
+                            "type": "number",
+                            "val": "8",
+                            "pos": 189
+                        }
+                    },
+                    "op": {
+                        "type": "/",
+                        "val": "/",
+                        "pos": 191
+                    },
+                    "right": {
+                        "token": {
+                            "type": "number",
+                            "val": "2",
+                            "pos": 193
+                        }
+                    }
+                },
+                "op": {
+                    "type": "+",
+                    "val": "+",
+                    "pos": 195
+                },
+                "right": {
+                    "left": {
+                        "token": {
+                            "type": "number",
+                            "val": "15",
+                            "pos": 197
+                        }
+                    },
+                    "op": {
+                        "type": "*",
+                        "val": "*",
+                        "pos": 200
+                    },
+                    "right": {
+                        "token": {
+                            "type": "number",
+                            "val": "4",
+                            "pos": 202
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "y",
+                "pos": 206
+            },
+            "expression": {
+                "token": {
+                    "type": "float",
+                    "val": "14.54",
+                    "pos": 209
+                }
+            }
+        },
+        {
+            "prod": "if statement",
+            "relationalExpression": {
+                "left": {
+                    "token": {
+                        "type": "number",
+                        "val": "2",
+                        "pos": 221
+                    }
+                },
+                "op": {
+                    "type": ">",
+                    "val": ">",
+                    "pos": 222
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "3",
+                        "pos": 223
+                    }
+                }
+            },
+            "block": [
+                {
+                    "prod": "assign statement",
+                    "left": {
+                        "type": "identifier",
+                        "val": "w",
+                        "pos": 249
+                    },
+                    "expression": {
+                        "left": {
+                            "token": {
+                                "type": "identifier",
+                                "val": "w",
+                                "pos": 252
+                            }
+                        },
+                        "op": {
+                            "type": "+",
+                            "val": "+",
+                            "pos": 253
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "3",
+                                "pos": 255
+                            }
+                        }
+                    }
+                }
+            ],
+            "elseNode": [
+                {
+                    "prod": "if statement",
+                    "relationalExpression": {
+                        "left": {
+                            "token": {
+                                "type": "number",
+                                "val": "4",
+                                "pos": 278
+                            }
+                        },
+                        "op": {
+                            "type": ">",
+                            "val": ">",
+                            "pos": 279
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "2",
+                                "pos": 280
+                            }
+                        }
+                    },
+                    "block": [
+                        {
+                            "prod": "assign statement",
+                            "left": {
+                                "type": "identifier",
+                                "val": "b",
+                                "pos": 294
+                            },
+                            "expression": {
+                                "token": {
+                                    "type": "float",
+                                    "val": "3.2",
+                                    "pos": 297
+                                }
+                            }
+                        }
+                    ],
+                    "elseNode": [
+                        {
+                            "prod": "assign statement",
+                            "left": {
+                                "type": "identifier",
+                                "val": "c",
+                                "pos": 318
+                            },
+                            "expression": {
+                                "token": {
+                                    "type": "float",
+                                    "val": "5.0",
+                                    "pos": 321
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "prod": "assign statement",
+                    "left": {
+                        "type": "identifier",
+                        "val": "v",
+                        "pos": 341
+                    },
+                    "expression": {
+                        "left": {
+                            "token": {
+                                "type": "identifier",
+                                "val": "v",
+                                "pos": 346
+                            }
+                        },
+                        "op": {
+                            "type": "+",
+                            "val": "+",
+                            "pos": 348
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "1",
+                                "pos": 350
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "a",
+                "pos": 360
+            },
+            "expression": {
+                "left": {
+                    "type": "identifier",
+                    "val": "a",
+                    "pos": 360
+                },
+                "op": {
+                    "type": "+",
+                    "val": "+",
+                    "pos": 363
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "1",
+                        "pos": 361
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "c",
+                "pos": 366
+            },
+            "expression": {
+                "left": {
+                    "type": "identifier",
+                    "val": "c",
+                    "pos": 366
+                },
+                "op": {
+                    "type": "-",
+                    "val": "-",
+                    "pos": 369
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "1",
+                        "pos": 367
+                    }
+                }
+            }
+        },
+        {
+            "prod": "assign statement",
+            "left": {
+                "type": "identifier",
+                "val": "x",
+                "pos": 372
+            },
+            "expression": {
+                "left": {
+                    "token": {
+                        "type": "number",
+                        "val": "3",
+                        "pos": 375
+                    }
+                },
+                "op": {
+                    "type": "+",
+                    "val": "+",
+                    "pos": 377
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "4",
+                        "pos": 379
+                    }
+                }
+            }
+        },
+        {
+            "prod": "do-until statement",
+            "relationalExpression": {
+                "left": {
+                    "token": {
+                        "type": "identifier",
+                        "val": "y",
+                        "pos": 484
+                    }
+                },
+                "op": {
+                    "type": "==",
+                    "val": "==",
+                    "pos": 485
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "5",
+                        "pos": 487
+                    }
+                }
+            },
+            "statements": [
+                {
+                    "prod": "assign statement",
+                    "left": {
+                        "type": "identifier",
+                        "val": "y",
+                        "pos": 388
+                    },
+                    "expression": {
+                        "left": {
+                            "left": {
+                                "left": {
+                                    "token": {
+                                        "type": "identifier",
+                                        "val": "y",
+                                        "pos": 392
+                                    }
+                                },
+                                "op": {
+                                    "type": "+",
+                                    "val": "+",
+                                    "pos": 394
+                                },
+                                "right": {
+                                    "token": {
+                                        "type": "number",
+                                        "val": "1",
+                                        "pos": 396
+                                    }
+                                }
+                            },
+                            "op": {
+                                "type": "*",
+                                "val": "*",
+                                "pos": 398
+                            },
+                            "right": {
+                                "token": {
+                                    "type": "number",
+                                    "val": "2",
+                                    "pos": 400
+                                }
+                            }
+                        },
+                        "op": {
+                            "type": "+",
+                            "val": "+",
+                            "pos": 402
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "1",
+                                "pos": 404
+                            }
+                        }
+                    }
+                },
+                {
+                    "prod": "while statement",
+                    "relationalExpression": {
+                        "left": {
+                            "token": {
+                                "type": "identifier",
+                                "val": "x",
+                                "pos": 416
+                            }
+                        },
+                        "op": {
+                            "type": ">",
+                            "val": ">",
+                            "pos": 418
+                        },
+                        "right": {
+                            "token": {
+                                "type": "number",
+                                "val": "7",
+                                "pos": 420
+                            }
+                        }
+                    },
+                    "block": {
+                        "statements": [
+                            {
+                                "prod": "assign statement",
+                                "left": {
+                                    "type": "identifier",
+                                    "val": "x",
+                                    "pos": 427
+                                },
+                                "expression": {
+                                    "left": {
+                                        "token": {
+                                            "type": "number",
+                                            "val": "6",
+                                            "pos": 430
+                                        }
+                                    },
+                                    "op": {
+                                        "type": "+",
+                                        "val": "+",
+                                        "pos": 432
+                                    },
+                                    "right": {
+                                        "left": {
+                                            "left": {
+                                                "left": {
+                                                    "token": {
+                                                        "type": "number",
+                                                        "val": "8",
+                                                        "pos": 434
+                                                    }
+                                                },
+                                                "op": {
+                                                    "type": "/",
+                                                    "val": "/",
+                                                    "pos": 436
+                                                },
+                                                "right": {
+                                                    "token": {
+                                                        "type": "number",
+                                                        "val": "9",
+                                                        "pos": 438
+                                                    }
+                                                }
+                                            },
+                                            "op": {
+                                                "type": "*",
+                                                "val": "*",
+                                                "pos": 440
+                                            },
+                                            "right": {
+                                                "token": {
+                                                    "type": "number",
+                                                    "val": "8",
+                                                    "pos": 442
+                                                }
+                                            }
+                                        },
+                                        "op": {
+                                            "type": "/",
+                                            "val": "/",
+                                            "pos": 444
+                                        },
+                                        "right": {
+                                            "token": {
+                                                "type": "number",
+                                                "val": "3",
+                                                "pos": 446
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "prod": "read statement",
+                                "token": {
+                                    "type": "identifier",
+                                    "val": "x",
+                                    "pos": 456
+                                }
+                            },
+                            {
+                                "prod": "assign statement",
+                                "left": {
+                                    "type": "identifier",
+                                    "val": "mas",
+                                    "pos": 462
+                                },
+                                "expression": {
+                                    "left": {
+                                        "token": {
+                                            "type": "number",
+                                            "val": "36",
+                                            "pos": 467
+                                        }
+                                    },
+                                    "op": {
+                                        "type": "/",
+                                        "val": "/",
+                                        "pos": 469
+                                    },
+                                    "right": {
+                                        "token": {
+                                            "type": "number",
+                                            "val": "7",
+                                            "pos": 470
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "prod": "while statement",
+            "relationalExpression": {
+                "left": {
+                    "token": {
+                        "type": "identifier",
+                        "val": "y",
+                        "pos": 498
+                    }
+                },
+                "op": {
+                    "type": "==",
+                    "val": "==",
+                    "pos": 499
+                },
+                "right": {
+                    "token": {
+                        "type": "number",
+                        "val": "0",
+                        "pos": 501
+                    }
+                }
+            },
+            "block": {
+                "statements": [
+                    {
+                        "prod": "read statement",
+                        "token": {
+                            "type": "identifier",
+                            "val": "mas",
+                            "pos": 514
+                        }
+                    },
+                    {
+                        "prod": "print statement",
+                        "relationalExpression": {
+                            "left": {
+                                "token": {
+                                    "type": "identifier",
+                                    "val": "x",
+                                    "pos": 529
+                                }
+                            },
+                            "op": {
+                                "type": "+",
+                                "val": "+",
+                                "pos": 530
+                            },
+                            "right": {
+                                "left": {
+                                    "token": {
+                                        "type": "number",
+                                        "val": "3",
+                                        "pos": 531
+                                    }
+                                },
+                                "op": {
+                                    "type": "*",
+                                    "val": "*",
+                                    "pos": 532
+                                },
+                                "right": {
+                                    "token": {
+                                        "type": "number",
+                                        "val": "5",
+                                        "pos": 533
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

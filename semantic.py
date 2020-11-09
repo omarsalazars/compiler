@@ -1,32 +1,17 @@
-from lexer.Token import Token
-from lexer.Lexer import Lexer
-from lexer.LexerError import LexerError
-from lexer.Rules import rules
-from parser.Parser import Parser
-from semantic.Semantic import Semantic
-import sys
+from compiler.compiler import Compiler
 import json
 
-lx = Lexer(rules, skip_whitespace=True)
+compiler = Compiler()
+compiler.semantic()
 
-try:
-    if len(sys.argv)<2:
-        raise Exception('File not provided', 'Must provide filename as first argument')
-    file = open(sys.argv[1], 'r')
-except Exception as inst:
-    print("Error {%s}" % inst)
+#AST
+file = open("out/ast", "w")
+json_str = json.dumps(compiler.semantics.root, indent=4)
+file.write(json_str)
+file.close()
 
-lx.input(file.read())
-tokens = []
-
-try:
-    for tok in lx.tokens():
-        tokens.append(tok)
-except LexerError as err:
-    raise err
-
-parser = Parser(tokens)
-abstractTree = parser.parse()
-semantic = Semantic(abstractTree)
-json_str = json.dumps(abstractTree, indent=4)
-print(json_str)
+#SymTable
+file = open("out/sym", "w")
+json_str = json.dumps(compiler.semantics.symbol, indent=4)
+file.write(json_str)
+file.close()

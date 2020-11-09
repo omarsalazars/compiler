@@ -97,9 +97,9 @@ class DoUntilNode(AST):
     def interpret(self, symtable):
         if hasattr(self.relationalExpression, "interpret"):
             self.relationalExpression.interpret(symtable)
-        for stmt in self.statements:
-            if hasattr(stmt, "interpret"):
-                stmt.interpret(symtable)
+        #for stmt in self.statements:
+            #if hasattr(stmt, "interpret"):
+                #stmt.interpret(symtable)
 
 class WhileNode(AST):
     def __init__(self, relationalExpression, block):
