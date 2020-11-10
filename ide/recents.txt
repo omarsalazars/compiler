@@ -1,3 +1,4 @@
 /home/omar/Documents/compiler/hola
 /home/omar/Documents/compiler/intento
 /home/omar/Documents/compiler/a
+/home/omar/Documents/compiler/prueba2compis.txt

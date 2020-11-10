@@ -9,12 +9,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.json.JSONObject;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +37,10 @@ public class Controller {
     AnchorPane anchorPane;
     @FXML
     GridPane mainPane;
+    @FXML
+    TableView<Var> symTable;
+    @FXML
+    TableColumn nameCol, typeCol, locCol, valCol, lineCol;
 
     private FileManager fileManager = new FileManager();
     private Compiler COMPILER = new Compiler();
@@ -54,6 +61,7 @@ public class Controller {
 
         lexicOutput.setEditable(false);
         setHighlighter();
+        setTableView();
 
         openButton.setOnAction(AE -> this.openButtonAction(AE));
         saveButton.setOnAction(AE -> this.saveButtonAction(AE));
@@ -119,7 +127,9 @@ public class Controller {
                 console.appendText(output.substring(errorIndex));
                 fileManager.getCurrent().setLexerOutput("");
                 lexicOutput.setText("Error.");
+                console.setStyle("-fx-text-fill: red ;");
             }else {
+                console.setStyle("-fx-text-fill: black ;");
                 String tokens = COMPILER.getLexer().readOutput(COMPILER.getLexer().outPath);
                 fileManager.getCurrent().setLexerOutput(tokens);
                 lexicOutput.setText(tokens);
@@ -142,7 +152,9 @@ public class Controller {
                 console.appendText(output.substring(errorIndex));
                 fileManager.getCurrent().setParser(null);
                 parserOutput.setRoot(null);
+                console.setStyle("-fx-text-fill: red ;");
             }else {
+                console.setStyle("-fx-text-fill: black ;");
                 String json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().outPath);
                 AST ast = new AST(json);
                 fileManager.getCurrent().setParser(ast);
@@ -157,7 +169,6 @@ public class Controller {
     }
 
     public Boolean semanticAction(ActionEvent AE){
-        if(!this.lexicAction(AE)) return false;
         if(!this.syntacticAction(AE)) return false;
         fileManager.getCurrent().setContent(editor.getText());
         if(fileManager.getCurrent().save(mainPane.getScene().getWindow())) {
@@ -167,12 +178,20 @@ public class Controller {
                 console.appendText(output.substring(errorIndex));
                 fileManager.getCurrent().setSemantic(null);
                 semanticOutput.setRoot(null);
+                console.setStyle("-fx-text-fill: red ;");
             }else {
+                console.setStyle("-fx-text-fill: black ;");
+                console.appendText(output);
+                //AST
                 String json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().outPath);
                 AST ast = new AST(json);
                 fileManager.getCurrent().setSemantic(ast);
                 semanticOutput.setRoot(ast.toTreeNode());
-                console.appendText("Syntactic analyzer successfully executed.\n");
+
+                //SymTable
+                json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().symTableOut);
+                symTable.setItems(Var.jsonToList(new JSONObject(json)));
+                console.appendText("Semantic analyzer successfully executed.\n");
                 return true;
             }
         }else{
@@ -203,6 +222,26 @@ public class Controller {
     public void shutdown(){
         fileManager.saveRecents();
         Platform.exit();
+    }
+
+    private void setTableView(){
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<Var, String>("name")
+        );
+        typeCol.setCellValueFactory(
+                new PropertyValueFactory<Var, String>("type")
+        );
+        locCol.setCellValueFactory(
+                new PropertyValueFactory<Var, Integer>("loc")
+        );
+        lineCol.setCellValueFactory(
+                new PropertyValueFactory<Var, String>("lines")
+        );
+        /*
+        valCol.setCellFactory(
+                new PropertyValueFactory<Var, String>("val")
+        );
+         */
     }
 
     private void setHighlighter(){

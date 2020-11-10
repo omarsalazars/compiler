@@ -66,6 +66,8 @@ class VarNode(AST):
         self.token = token
 
     def interpret(self, symtable):
+        if symtable.lookup(self.token.val) is not None:
+            print("ADVERTENCIA: Variable %s redeclarada." % self.token.val)
         symtable.insert(self.token.val, self.type, self.token.pos)
 
 class IfNode(AST):
@@ -270,7 +272,9 @@ class AssignNode(AST):
             if hasattr(self.expression, "val"):
                 if symtable.lookup(self.left.val) is None:
                     #raise SemanticError("Undefined Variable")
-                    symtable.insert(self.left.val, self.expression.type, self.left.pos)
+                    token = {"token":Token(self.expression.type, self.expression.type, self.left.pos)}
+                    symtable.insert(self.left.val, token, self.left.pos)
+                    print("ADVERTENCIA: Variable %s no declarada. Añadiendo variable a la tabla de símbolos." % self.left.val)
                 symtable.set_attribute(self.left.val, "val", self.expression.val)
                 #Update symtable with new value?
 

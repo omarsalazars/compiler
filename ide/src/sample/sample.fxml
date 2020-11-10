@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.*?>
 
-<GridPane fx:id="mainPane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane fx:id="mainPane" alignment="center" hgap="10" prefHeight="250.0" prefWidth="789.0" vgap="10" xmlns="http://javafx.com/javafx/11.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -61,6 +61,22 @@
                                                       <TreeView fx:id="semanticOutput" layoutX="-28.0" layoutY="-61.0" prefHeight="60.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children></AnchorPane>
                                             </content>
+                                          </Tab>
+                                          <Tab text="Tabla Simbolos">
+                                              <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TableView fx:id="symTable" layoutX="30.0" layoutY="-70.0" prefHeight="60.0" prefWidth="314.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <columns>
+                                                          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Nombre" />
+                                                          <TableColumn fx:id="typeCol" prefWidth="75.0" text="Tipo" />
+                                                            <TableColumn fx:id="valCol" prefWidth="75.0" text="Valor" />
+                                                            <TableColumn fx:id="locCol" prefWidth="75.0" text="Loc" />
+                                                            <TableColumn fx:id="lineCol" prefWidth="75.0" text="Lineas" />
+                                                        </columns>
+                                                      </TableView>
+                                                   </children></AnchorPane>
+                                              </content>
                                           </Tab>
                                       </tabs>
                                     </TabPane>
