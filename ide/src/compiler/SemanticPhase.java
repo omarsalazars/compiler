@@ -7,13 +7,13 @@ public class SemanticPhase extends CompilerPhase{
 
     public SemanticPhase(String path){
         super(path);
-        outPath = System.getProperty("user.dir")+"/../out/ast";
-        symTableOut = System.getProperty("user.dir")+"/../out/sym";
+        outPath = System.getProperty("user.dir")+"/out/ast";
+        symTableOut = System.getProperty("user.dir")+"/out/sym";
     }
 
     public SemanticPhase(){
         super(System.getProperty("user.dir")+"/../semantic.py");
-        outPath = System.getProperty("user.dir")+"/../out/ast";
-        symTableOut = System.getProperty("user.dir")+"/../out/sym";
+        outPath = System.getProperty("user.dir")+"/out/ast";
+        symTableOut = System.getProperty("user.dir")+"/out/sym";
     }
 }

@@ -955,7 +955,7 @@
                         "val": "y",
                         "pos": 484
                     },
-                    "val": 14.54,
+                    "val": 14,
                     "type": {
                         "token": {
                             "type": "int",
@@ -1186,7 +1186,7 @@
                         "val": "y",
                         "pos": 498
                     },
-                    "val": 14.54,
+                    "val": 14,
                     "type": {
                         "token": {
                             "type": "int",

@@ -1,4 +1,5 @@
 from semantic.SemanticError import SemanticError
+from lexer.Rules import TokenType
 
 
 class SymbolTable(dict):
@@ -33,11 +34,22 @@ class SymbolTable(dict):
             self.loc = self.loc + 1
         pass
 
+    def add_line(self, name, line):
+        if name in self:
+            self[name]['lines'].append(line)
+
     # Associate an attribute with a given entry
     def set_attribute(self, name, attribute, newVal):
         if name in self:
             if attribute in self[name]:
                 self[name][attribute] = newVal
+                if attribute == "val":
+                    if self[name]["type"]["token"]["type"] == TokenType.INT:
+                        self[name]["val"] = int(self[name]["val"])
+                    elif self[name]["type"]["token"]["type"] == TokenType.REAL:
+                        self[name]["val"] = float(self[name]["val"])
+                    else:
+                        pass
             else:
                 raise SemanticError("Attribute %s not defined" % attribute)
         else:

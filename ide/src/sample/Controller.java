@@ -237,11 +237,9 @@ public class Controller {
         lineCol.setCellValueFactory(
                 new PropertyValueFactory<Var, String>("lines")
         );
-        /*
-        valCol.setCellFactory(
+        valCol.setCellValueFactory(
                 new PropertyValueFactory<Var, String>("val")
         );
-         */
     }
 
     private void setHighlighter(){

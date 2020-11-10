@@ -261,6 +261,7 @@ class AssignNode(AST):
             self.expression = relationalExpression
 
     def interpret(self, symtable):
+        symtable.add_line(self.left.val, self.left.pos)
         if hasattr(self, "relationalExpression"):
             self.relationalExpression.interpret(symtable)
             if self.relationalExpression.type != symtable.lookup(self.left).type:

@@ -6,11 +6,11 @@ public class LexicalPhase extends CompilerPhase {
 
     public LexicalPhase(String path){
         super(path);
-        outPath = System.getProperty("user.dir")+"/../out/tokens";
+        outPath = System.getProperty("user.dir")+"/out/tokens";
     }
 
     public LexicalPhase(){
         super(System.getProperty("user.dir")+"/../lex.py");
-        outPath = System.getProperty("user.dir")+"/../out/tokens";
+        outPath = System.getProperty("user.dir")+"/out/tokens";
     }
 }

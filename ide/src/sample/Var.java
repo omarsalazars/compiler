@@ -14,7 +14,7 @@ public class Var {
     String type;
     Integer loc;
     String lines;
-    Object val;
+    String val;
 
     static ObservableList<Var> jsonToList(JSONObject json){
         Iterator<String> it = json.keys();
@@ -36,14 +36,18 @@ public class Var {
                         break;
                     case "val":
                         Object val = currentObject.get(k);
-                        var.val = val;
                         if(val instanceof Boolean){
                             Boolean v = (Boolean)val;
+                            var.val = v.toString();
                         }else if(val instanceof Integer){
                             Integer v = (Integer)val;
+                            var.val = v.toString();
                         }else{
                             Double v = (Double)val;
+                            var.val = v.toString();
                         }
+                        if(var.val == null)
+                            var.val = "";
                         break;
                     case "loc":
                         Integer loc = currentObject.getInt(k);
@@ -92,5 +96,13 @@ public class Var {
 
     public void setLines(String lines) {
         this.lines = lines;
+    }
+
+    public String getVal(){
+        return this.val;
+    }
+
+    public void setVal(String val){
+        this.val = val;
     }
 }
