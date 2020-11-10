@@ -26,3 +26,7 @@
 .type{
     -fx-fill: chocolate;
 }
+
+.comment{
+    -fx-fill: pink;
+}

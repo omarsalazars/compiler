@@ -21,7 +21,7 @@ public class SyntaxHighlighter {
     private CodeArea editor;
 
     private static final String[] KEYWORDS = new String[] {
-            "if", "else", "do", "while", "repeat", "until"
+            "if", "else", "do", "while", "repeat", "until", "then", "end"
     };
 
     private static final String[] LITERAL = new String[]{
@@ -40,6 +40,8 @@ public class SyntaxHighlighter {
     private static final String NUMBER_PATTERN = "\\d+";
     private static final String LITERAL_PATTERN = "\\b(" + String.join("|", LITERAL) + ")\\b";
     private static final String TYPE_PATTERN = "\\b(" + String.join("|", TYPE) + ")\\b";
+    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN +")"
@@ -50,6 +52,7 @@ public class SyntaxHighlighter {
                     + "|(?<NUMBER>" + NUMBER_PATTERN + ")"
                     + "|(?<LITERAL>" + LITERAL_PATTERN + ")"
                     + "|(?<TYPE>" + TYPE_PATTERN + ")"
+                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
     );
 
     public SyntaxHighlighter(CodeArea editor){
@@ -69,7 +72,8 @@ public class SyntaxHighlighter {
                                                     matcher.group("FLOAT") != null ? "float":
                                                             matcher.group("NUMBER") != null ? "number":
                                                                     matcher.group("LITERAL") != null ? "literal" :
-                                                                            matcher.group("TYPE") != null ? "type" : null;
+                                                                            matcher.group("TYPE") != null ? "type" :
+                                                                                    matcher.group("COMMENT") != null? "comment" : null;
             assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());

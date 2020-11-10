@@ -66,15 +66,16 @@ public class Controller {
         openButton.setOnAction(AE -> this.openButtonAction(AE));
         saveButton.setOnAction(AE -> this.saveButtonAction(AE));
 
-        compile.setOnAction(actionEvent -> {
+        /*compile.setOnAction(actionEvent -> {
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("Acción no implementada");
             a.show();
-        });
+        });*/
 
         lexic.setOnAction( actionEvent -> lexicAction(actionEvent));
         syntactic.setOnAction( actionEvent -> syntacticAction(actionEvent));
         semantic.setOnAction( actionEvent -> semanticAction(actionEvent));
+        compile.setOnAction( actionEvent -> semanticAction(actionEvent) );
 
         //Files
         filesTabs.getSelectionModel().selectedItemProperty().addListener(
