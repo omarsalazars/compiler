@@ -30,7 +30,31 @@ public class AST {
                 String nextString = it.next();
                 if(nextString.equals("prod")) continue;
                 Object next = obj.get(nextString);
-                TreeItem<String> nextNode = new TreeItem<>(nextString);
+                String nextNodeName = nextString;
+                if(next instanceof JSONObject){
+                    JSONObject aux = (JSONObject) next;
+                    if(aux.has("val")) {
+                        Object o = aux.get("val");
+                        nextNodeName += " val: " + o.toString();
+                    }
+                }
+                else if(nextString.equals("token")){ //Check if nextNode is token
+                    JSONObject token = obj.optJSONObject("token");
+                    if(token!=null){
+                        String type = token.getString("type");
+                        String val = "";
+                        if(type.equals("number") || type.equals("float")){
+                            val = token.getString("val");
+                            nextNodeName += " val: "+val;
+                        }
+                    }
+                }
+                else if(nextString.equals("op")){ //Operator node
+                    JSONObject operator = obj.getJSONObject("op");
+                    String val = operator.getString("val");
+                    nextNodeName += " val: "+val;
+                }
+                TreeItem<String> nextNode = new TreeItem<>(nextNodeName);
                 nextNode.getChildren().addAll(visitNode(new TreeItem<>(nextString), next));
                 list.add(nextNode);
             }
