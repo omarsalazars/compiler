@@ -50,20 +50,6 @@
                             "pos": 7
                         }
                     }
-                },
-                {
-                    "token": {
-                        "type": "identifier",
-                        "val": "z",
-                        "pos": 17
-                    },
-                    "type": {
-                        "token": {
-                            "type": "int",
-                            "val": "int",
-                            "pos": 7
-                        }
-                    }
                 }
             ]
         },
@@ -137,7 +123,8 @@
                 },
                 "val": 45,
                 "type": "int"
-            }
+            },
+            "error": "ERROR: suma no declarada"
         },
         {
             "prod": "assign statement",
@@ -154,7 +141,8 @@
                 },
                 "val": 32.32,
                 "type": "float"
-            }
+            },
+            "error": "ERROR: Tipos incompatibles, variable x"
         },
         {
             "prod": "assign statement",
@@ -241,13 +229,7 @@
                         "pos": 80
                     },
                     "val": 4,
-                    "type": {
-                        "token": {
-                            "type": "int",
-                            "val": "int",
-                            "pos": 7
-                        }
-                    }
+                    "type": "int"
                 },
                 "op": {
                     "type": "+",
@@ -263,7 +245,7 @@
                     "val": 7,
                     "type": "int"
                 },
-                "type": "float",
+                "type": "int",
                 "val": 11
             }
         },
@@ -282,13 +264,7 @@
                         "pos": 89
                     },
                     "val": 4,
-                    "type": {
-                        "token": {
-                            "type": "int",
-                            "val": "int",
-                            "pos": 7
-                        }
-                    }
+                    "type": "int"
                 },
                 "op": {
                     "type": "+",
@@ -304,7 +280,7 @@
                     "val": 1,
                     "type": "int"
                 },
-                "type": "float",
+                "type": "int",
                 "val": 5
             }
         },
@@ -376,7 +352,7 @@
                                     "type": "int"
                                 },
                                 "type": "int",
-                                "val": 0.3333333333333333
+                                "val": 0
                             },
                             "op": {
                                 "type": "*",
@@ -393,10 +369,10 @@
                                 "type": "int"
                             },
                             "type": "int",
-                            "val": 0.6666666666666666
+                            "val": 0
                         },
                         "type": "float",
-                        "val": 27.333333333333332
+                        "val": 28.0
                     },
                     "op": {
                         "type": "+",
@@ -413,7 +389,7 @@
                         "type": "int"
                     },
                     "type": "float",
-                    "val": 61.33333333333333
+                    "val": 62.0
                 },
                 "op": {
                     "type": "-",
@@ -430,7 +406,7 @@
                     "type": "int"
                 },
                 "type": "float",
-                "val": 60.33333333333333
+                "val": 61.0
             }
         },
         {
@@ -498,10 +474,10 @@
                         "type": "int"
                     },
                     "type": "int",
-                    "val": 4.0
+                    "val": 4
                 },
                 "type": "int",
-                "val": 8.0
+                "val": 8
             }
         },
         {
@@ -588,10 +564,10 @@
                             "type": "int"
                         },
                         "type": "int",
-                        "val": 1.1428571428571428
+                        "val": 1
                     },
                     "type": "int",
-                    "val": 6.857142857142858
+                    "val": 7
                 },
                 "op": {
                     "type": "-",
@@ -608,7 +584,7 @@
                     "type": "int"
                 },
                 "type": "int",
-                "val": -2.1428571428571423
+                "val": -2
             }
         },
         {
@@ -644,7 +620,7 @@
                         "type": "int"
                     },
                     "type": "int",
-                    "val": 4.0
+                    "val": 4
                 },
                 "op": {
                     "type": "+",
@@ -679,7 +655,7 @@
                     "val": 60
                 },
                 "type": "int",
-                "val": 64.0
+                "val": 64
             }
         },
         {
@@ -697,7 +673,8 @@
                 },
                 "val": 14.54,
                 "type": "float"
-            }
+            },
+            "error": "ERROR: Tipos incompatibles, variable y"
         },
         {
             "prod": "if statement",
@@ -877,7 +854,7 @@
                     "type": "int"
                 },
                 "type": "float",
-                "val": 61.33333333333333
+                "val": 62.0
             }
         },
         {
@@ -955,14 +932,8 @@
                         "val": "y",
                         "pos": 484
                     },
-                    "val": 14,
-                    "type": {
-                        "token": {
-                            "type": "int",
-                            "val": "int",
-                            "pos": 7
-                        }
-                    }
+                    "val": -2,
+                    "type": "int"
                 },
                 "op": {
                     "type": "==",
@@ -1186,14 +1157,8 @@
                         "val": "y",
                         "pos": 498
                     },
-                    "val": 14,
-                    "type": {
-                        "token": {
-                            "type": "int",
-                            "val": "int",
-                            "pos": 7
-                        }
-                    }
+                    "val": -2,
+                    "type": "int"
                 },
                 "op": {
                     "type": "==",

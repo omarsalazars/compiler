@@ -47,9 +47,12 @@ class DeclarationNode(AST):
 
     def interpret(self, symtable):
         if self.vars is not None:
+            newVars = []
             for var in self.vars:
                 var.type = self.type
-                var.interpret(symtable)
+                if var.interpret(symtable)!=True:
+                    newVars.append(var)
+            self.vars = newVars
         else:
             self.var.type = self.type
             self.var.interpret(symtable)
@@ -67,7 +70,9 @@ class VarNode(AST):
 
     def interpret(self, symtable):
         if symtable.lookup(self.token.val) is not None:
+            self.error = "ERROR: Variable redeclarada"
             print("ADVERTENCIA: Variable %s redeclarada." % self.token.val)
+            return True
         symtable.insert(self.token.val, self.type, self.token.pos)
 
 class IfNode(AST):
@@ -167,7 +172,7 @@ class BinaryOperationNode(AST):
                 if leftType is None:
                     pass
                 else:
-                    leftType = symtable.get_attribute(self.left.val, 'type')
+                    leftType = symtable.get_attribute(self.left.val, 'type').token.type
                     leftVal = symtable.get_attribute(self.left.val, 'val')
         elif isinstance(self.left, NumNode):
             leftType = self.left.type
@@ -186,7 +191,7 @@ class BinaryOperationNode(AST):
                 if rightType is None:
                     pass
                 else:
-                    rightType = symtable.get_attribute(self.right.val, 'type')
+                    rightType = symtable.get_attribute(self.right.val, 'type').token.type
                     rightVal = symtable.get_attribute(self.right.val, 'val')
         elif isinstance(self.right, NumNode):
             rightType = self.right.type
@@ -211,6 +216,8 @@ class BinaryOperationNode(AST):
             self.val = None
         else:
             self.val = self.operacionBinaria(leftVal, self.op, rightVal)
+            if self.type == TokenType.INT:
+                self.val = int(self.val)
 
 
     def operacionBinaria(self, leftVal, op, rightVal):
@@ -233,7 +240,7 @@ class NumNode(AST):
     def interpret(self, symtable):
         if self.token.type == TokenType.IDENTIFIER:
             self.val = symtable.lookup(self.token.val)["val"]
-            self.type = symtable.lookup(self.token.val)["type"]
+            self.type = symtable.lookup(self.token.val)["type"].token.type
         elif self.token.type == TokenType.NUMBER:
             try:
                 self.val = int(self.token.val)
@@ -264,8 +271,11 @@ class AssignNode(AST):
         symtable.add_line(self.left.val, self.left.pos)
         if hasattr(self, "relationalExpression"):
             self.relationalExpression.interpret(symtable)
-            if self.relationalExpression.type != symtable.lookup(self.left).type:
-                raise SemanticError("Tipos incompatibles.")
+            if self.relationalExpression.type != symtable.lookup(self.left)["type"].token.type:
+                #raise SemanticError("Tipos incompatibles.")
+                print("Tipos incompatibles")
+                self.error = "ERROR: tipos incompatibles"
+                return
             elif hasattr(self.relationalExpression, "val"):
                     symtable.set_attribute(self.left.val, "val", self.relationalExpression.val)
         elif hasattr(self, "expression"):
@@ -274,8 +284,21 @@ class AssignNode(AST):
                 if symtable.lookup(self.left.val) is None:
                     #raise SemanticError("Undefined Variable")
                     token = {"token":Token(self.expression.type, self.expression.type, self.left.pos)}
-                    symtable.insert(self.left.val, token, self.left.pos)
-                    print("ADVERTENCIA: Variable %s no declarada. Añadiendo variable a la tabla de símbolos." % self.left.val)
+                    print("ERROR: Variable %s no declarada." % self.left.val)
+                    self.error = "ERROR: "+self.left.val+" no declarada"
+                    return
+
+                tipo = symtable.lookup(self.left.val)["type"].token.type
+                if hasattr(self.expression, "type"):
+                    if tipo == TokenType.INT:
+                        if self.expression.type == TokenType.FLOAT or self.expression.type == TokenType.REAL or self.expression.type == TokenType.BOOLEAN:
+                            print("ERROR: Tipos incompatibles, variable %s" % self.left.val)
+                            self.error = "ERROR: Tipos incompatibles, variable "+self.left.val
+                            return
+                    elif tipo == TokenType.FLOAT:
+                        pass
+                    elif tipo == TokenType.BOOLEAN:
+                        pass
                 symtable.set_attribute(self.left.val, "val", self.expression.val)
                 #Update symtable with new value?
 

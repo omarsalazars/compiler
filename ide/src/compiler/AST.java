@@ -28,6 +28,7 @@ public class AST {
             Iterator<String> it = obj.keys();
             while (it.hasNext()){
                 String nextString = it.next();
+                System.out.println(nextString);
                 if(nextString.equals("prod")) continue;
                 Object next = obj.get(nextString);
                 String nextNodeName = nextString;
