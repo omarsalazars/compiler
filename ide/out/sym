@@ -5,15 +5,15 @@
             "token": {
                 "type": "int",
                 "val": "int",
-                "pos": 7
+                "pos": 2
             }
         },
         "lines": [
+            2,
+            5,
+            6,
             11,
-            47,
-            58,
-            132,
-            372
+            27
         ],
         "val": 7,
         "loc": 0
@@ -23,15 +23,15 @@
             "token": {
                 "type": "int",
                 "val": "int",
-                "pos": 7
+                "pos": 2
             }
         },
         "lines": [
-            13,
-            66,
-            86,
-            156,
-            206
+            2,
+            7,
+            9,
+            12,
+            14
         ],
         "val": -2,
         "loc": 1
@@ -41,13 +41,13 @@
             "token": {
                 "type": "int",
                 "val": "int",
-                "pos": 7
+                "pos": 2
             }
         },
         "lines": [
-            15,
-            77,
-            185
+            2,
+            8,
+            13
         ],
         "val": 64,
         "loc": 2
@@ -57,13 +57,13 @@
             "token": {
                 "type": "real",
                 "val": "real",
-                "pos": 21
+                "pos": 3
             }
         },
         "lines": [
-            26,
-            97,
-            360
+            3,
+            10,
+            25
         ],
         "val": 62.0,
         "loc": 3
@@ -73,11 +73,11 @@
             "token": {
                 "type": "real",
                 "val": "real",
-                "pos": 21
+                "pos": 3
             }
         },
         "lines": [
-            29
+            3
         ],
         "val": 0,
         "loc": 4
@@ -87,12 +87,12 @@
             "token": {
                 "type": "real",
                 "val": "real",
-                "pos": 21
+                "pos": 3
             }
         },
         "lines": [
-            32,
-            366
+            3,
+            26
         ],
         "val": -1.0,
         "loc": 5

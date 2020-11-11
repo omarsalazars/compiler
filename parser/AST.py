@@ -71,7 +71,7 @@ class VarNode(AST):
     def interpret(self, symtable):
         if symtable.lookup(self.token.val) is not None:
             self.error = "ERROR: Variable redeclarada"
-            print("ADVERTENCIA: Variable %s redeclarada." % self.token.val)
+            print("ERROR linea %s: Variable %s redeclarada." % (self.token.pos, self.token.val))
             return True
         symtable.insert(self.token.val, self.type, self.token.pos)
 
@@ -134,8 +134,9 @@ class ReadNode(AST):
         return "ReadNode"
 
     def interpret(self, symtable):
-        if symtable.lookup(self.token.val) == None:
-            raise SemanticError("Variable no declarada.")
+        if symtable.lookup(self.token.val) is None:
+            #raise SemanticError("Variable no declarada.")
+            print("ERROR linea %s: Variable %s no declarada" % (self.token.pos, self.token.val))
         symtable.set_attribute(self.token.val, 'val', None)
 
 class PrintNode(AST):
@@ -273,7 +274,7 @@ class AssignNode(AST):
             self.relationalExpression.interpret(symtable)
             if self.relationalExpression.type != symtable.lookup(self.left)["type"].token.type:
                 #raise SemanticError("Tipos incompatibles.")
-                print("Tipos incompatibles")
+                print("Error linea %s: Tipos incompatibles" % self.left.pos)
                 self.error = "ERROR: tipos incompatibles"
                 return
             elif hasattr(self.relationalExpression, "val"):
@@ -284,7 +285,7 @@ class AssignNode(AST):
                 if symtable.lookup(self.left.val) is None:
                     #raise SemanticError("Undefined Variable")
                     token = {"token":Token(self.expression.type, self.expression.type, self.left.pos)}
-                    print("ERROR: Variable %s no declarada." % self.left.val)
+                    print("ERROR linea %s: Variable %s no declarada." % (self.left.pos, self.left.val))
                     self.error = "ERROR: "+self.left.val+" no declarada"
                     return
 
@@ -292,7 +293,7 @@ class AssignNode(AST):
                 if hasattr(self.expression, "type"):
                     if tipo == TokenType.INT:
                         if self.expression.type == TokenType.FLOAT or self.expression.type == TokenType.REAL or self.expression.type == TokenType.BOOLEAN:
-                            print("ERROR: Tipos incompatibles, variable %s" % self.left.val)
+                            print("ERROR linea %s: Tipos incompatibles, variable %s" % (self.left.pos, self.left.val))
                             self.error = "ERROR: Tipos incompatibles, variable "+self.left.val
                             return
                     elif tipo == TokenType.FLOAT:

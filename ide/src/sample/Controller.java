@@ -125,16 +125,15 @@ public class Controller {
             String output = COMPILER.getLexer().run(fileManager.getCurrent().getFile().getAbsolutePath());
             int errorIndex = output.indexOf("lexer.LexerError");
             if(errorIndex != -1){
-                console.appendText(output.substring(errorIndex));
+                console.setText(output.substring(errorIndex));
                 fileManager.getCurrent().setLexerOutput("");
-                lexicOutput.setText("Error.");
+                lexicOutput.appendText("Error.");
                 console.setStyle("-fx-text-fill: red ;");
             }else {
                 console.setStyle("-fx-text-fill: black ;");
                 String tokens = COMPILER.getLexer().readOutput(COMPILER.getLexer().outPath);
                 fileManager.getCurrent().setLexerOutput(tokens);
                 lexicOutput.setText(tokens);
-                console.appendText("Lexic analyzer successfully executed.\n");
                 return true;
             }
         }else{
@@ -150,7 +149,7 @@ public class Controller {
             String output = COMPILER.getParser().run(fileManager.getCurrent().getFile().getAbsolutePath());
             int errorIndex = output.indexOf("parser.ParseError.ParseError");
             if(errorIndex != -1){
-                console.appendText(output.substring(errorIndex));
+                console.setText(output.substring(errorIndex));
                 fileManager.getCurrent().setParser(null);
                 parserOutput.setRoot(null);
                 console.setStyle("-fx-text-fill: red ;");
@@ -160,7 +159,6 @@ public class Controller {
                 AST ast = new AST(json);
                 fileManager.getCurrent().setParser(ast);
                 parserOutput.setRoot(ast.toTreeNode());
-                console.appendText("Syntactic analyzer successfully executed.\n");
                 return true;
             }
         }else{
@@ -176,13 +174,13 @@ public class Controller {
             String output = COMPILER.getSemantic().run(fileManager.getCurrent().getFile().getAbsolutePath());
             int errorIndex = output.indexOf("semantic.SemanticError.SemanticError");
             if(errorIndex != -1){
-                console.appendText(output.substring(errorIndex));
+                console.setText(output.substring(errorIndex));
                 fileManager.getCurrent().setSemantic(null);
                 semanticOutput.setRoot(null);
                 console.setStyle("-fx-text-fill: red ;");
             }else {
                 console.setStyle("-fx-text-fill: black ;");
-                console.appendText(output);
+                console.setText(output);
                 //AST
                 String json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().outPath);
                 AST ast = new AST(json);
@@ -192,7 +190,6 @@ public class Controller {
                 //SymTable
                 json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().symTableOut);
                 symTable.setItems(Var.jsonToList(new JSONObject(json)));
-                console.appendText("Semantic analyzer successfully executed.\n");
                 return true;
             }
         }else{
