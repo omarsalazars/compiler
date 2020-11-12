@@ -6,9 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Var {
     String name;
@@ -58,7 +56,13 @@ public class Var {
                         break;
                     case "lines":
                         JSONArray lines = currentObject.getJSONArray(k);
-                        var.lines = lines.toList().toString();
+                        ArrayList<Integer> l = new ArrayList<>();
+                        Iterator<Object> aux = lines.iterator();
+                        while(aux.hasNext()){
+                            l.add((Integer) aux.next());
+                        }
+                        Collections.sort(l);
+                        var.lines = l.toString();
                         break;
                     default:
                         break;

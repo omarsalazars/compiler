@@ -35,11 +35,10 @@ class SymbolTable(dict):
         pass
 
     def add_line(self, name, line):
-        return
+        #return
+        if line==0:
+            return
         if name in self:
-            if line in self[name]['lines']:
-                pass
-            else:
                 self[name]['lines'].append(line)
 
     def add_l(self, name, line):

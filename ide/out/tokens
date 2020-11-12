@@ -15,8 +15,6 @@ TokenType.COMMA( ',' ) at 3
 TokenType.IDENTIFIER( 'b' ) at 3
 TokenType.COMMA( ',' ) at 3
 TokenType.IDENTIFIER( 'c' ) at 3
-TokenType.COMMA( ',' ) at 3
-TokenType.IDENTIFIER( 'x' ) at 3
 TokenType.SEMICOLON( ';' ) at 3
 TokenType.IDENTIFIER( 'suma' ) at 4
 TokenType.EQUALS( ':=' ) at 4
