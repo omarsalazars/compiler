@@ -155,7 +155,7 @@ public class Controller {
                 console.setStyle("-fx-text-fill: red ;");
             }else {
                 console.setStyle("-fx-text-fill: black ;");
-                String json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().outPath);
+                String json = COMPILER.getParser().readOutput(COMPILER.getParser().outPath);
                 AST ast = new AST(json);
                 fileManager.getCurrent().setParser(ast);
                 parserOutput.setRoot(ast.toTreeNode());
@@ -186,7 +186,7 @@ public class Controller {
                 AST ast = new AST(json);
                 fileManager.getCurrent().setSemantic(ast);
                 semanticOutput.setRoot(ast.toTreeNode());
-
+                this.expandTreeView(semanticOutput.getRoot());
                 //SymTable
                 json = COMPILER.getSemantic().readOutput(COMPILER.getSemantic().symTableOut);
                 symTable.setItems(Var.jsonToList(new JSONObject(json)));
@@ -255,5 +255,14 @@ public class Controller {
                 if(m0.find()) Platform.runLater( () -> editor.insertText(caretPosition, m0.group()) );
             }
         } );
+    }
+
+    private void expandTreeView(TreeItem<?> item){
+        if(item != null && !item.isLeaf()){
+            item.setExpanded(true);
+            for(TreeItem<?> child:item.getChildren()){
+                expandTreeView(child);
+            }
+        }
     }
 }

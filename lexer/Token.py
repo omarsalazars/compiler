@@ -8,3 +8,8 @@ class Token(dict):
 
     def __str__(self):
         return '%s( %s ) at %s' % (self.type, repr(self.val), self.pos)
+
+    def to_dict(self, symtable):
+        return {
+            "prod": self.type + " " + self.val
+        }

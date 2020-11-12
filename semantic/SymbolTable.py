@@ -44,9 +44,9 @@ class SymbolTable(dict):
             if attribute in self[name]:
                 self[name][attribute] = newVal
                 if attribute == "val":
-                    if self[name]["type"]["token"]["type"] == TokenType.INT:
+                    if self[name]["type"].token.type == TokenType.INT:
                         self[name]["val"] = int(self[name]["val"])
-                    elif self[name]["type"]["token"]["type"] == TokenType.REAL:
+                    elif self[name]["type"].token.type == TokenType.REAL:
                         self[name]["val"] = float(self[name]["val"])
                     else:
                         pass
