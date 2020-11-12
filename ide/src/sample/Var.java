@@ -43,9 +43,11 @@ public class Var {
                         }else if(val instanceof Integer){
                             Integer v = (Integer)val;
                             var.val = v.toString();
-                        }else{
+                        }else if(val instanceof Double){
                             Double v = (Double)val;
                             var.val = v.toString();
+                        }else{
+                            var.val = val.toString();
                         }
                         if(var.val == null)
                             var.val = "";

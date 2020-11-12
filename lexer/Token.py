@@ -10,6 +10,8 @@ class Token(dict):
         return '%s( %s ) at %s' % (self.type, repr(self.val), self.pos)
 
     def to_dict(self, symtable):
+        if symtable.lookup(self.val) is not None:
+            symtable.add_line(self.val, self.pos)
         return {
             "prod": self.type + " " + self.val
         }

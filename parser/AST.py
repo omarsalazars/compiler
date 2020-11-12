@@ -124,13 +124,19 @@ class IfNode(AST):
         ret = {
             "prod": "if val="+ str(self.relationalExpression.val),
             "condition" : self.relationalExpression.to_dict(symtable),
-            "statements" : stmts,
+            "statements" : {
+                "statements": stmts,
+                "prod": "statements"
+            },
         }
         if hasattr(self, "elseNode"):
             elseStmts = []
-            for stmt in elseStmts:
+            for stmt in self.elseNode:
                 elseStmts.append(stmt.to_dict(symtable))
-            ret["else"] = elseStmts
+            ret["else"] = {
+                "elseNode": elseStmts,
+                "prod": "elseNode"
+            }
         return ret
     
     def interpret(self, symtable):
@@ -165,7 +171,8 @@ class DoUntilNode(AST):
             stmts.append(stmt.to_dict(symtable))
         return {
             "prod" : "do-until val="+str(self.relationalExpression.val),
-            "statements" : stmts
+            "statements" : stmts,
+            "relExpression" : self.relationalExpression.to_dict(symtable)
         }
 
 class WhileNode(AST):
@@ -184,6 +191,7 @@ class WhileNode(AST):
         self.relationalExpression.interpret(symtable)
         if self.relationalExpression.type != TokenType.BOOLEAN:
             raise SemanticError("Expression is not boolean.")
+        self.block.interpret(symtable)
 
     def to_dict(self, symtable):
         return {
@@ -204,7 +212,8 @@ class ReadNode(AST):
         if symtable.lookup(self.token.val) is None:
             #raise SemanticError("Variable no declarada.")
             print("ERROR linea %s: Variable %s no declarada" % (self.token.pos, self.token.val))
-        symtable.set_attribute(self.token.val, 'val', None)
+        else:
+            symtable.set_attribute(self.token.val, 'val', None)
 
     def to_dict(self, symtable):
         return {
@@ -244,6 +253,7 @@ class BinaryOperationNode(AST):
         if hasattr(self.right, "interpret"):
             self.right.interpret(symtable)
 
+
         #Set Left Operation type: float | int
         if isinstance(self.left, Token):
             symtable.add_line(self.left.val, self.left.pos)
@@ -254,6 +264,8 @@ class BinaryOperationNode(AST):
                 else:
                     leftType = symtable.get_attribute(self.left.val, 'type').token.type
                     leftVal = symtable.get_attribute(self.left.val, 'val')
+                    symtable.add_line(self.left.val, self.left.pos)
+                    self.left.v = leftVal
         elif isinstance(self.left, NumNode):
             if hasattr(self.left,"type"):
                 leftType = self.left.type
@@ -280,6 +292,8 @@ class BinaryOperationNode(AST):
                 else:
                     rightType = symtable.get_attribute(self.right.val, 'type').token.type
                     rightVal = symtable.get_attribute(self.right.val, 'val')
+                    symtable.add_line(self.right.val, self.right.pos)
+                    self.right.v = rightVal
         elif isinstance(self.right, NumNode):
             rightType = self.right.type
             rightVal = self.right.val
@@ -395,7 +409,12 @@ class NumNode(AST):
             raise SemanticError("Error inesperado.")
 
     def to_dict(self, symtable):
-        return self.token.val
+        if self.token.type == TokenType.IDENTIFIER:
+            symtable.add_line(self.token.val, self.token.pos)
+        if hasattr(self, "val"):
+            return self.token.val + " val="+str(self.val)
+        else:
+            return self.token.val
 
 class AssignNode(AST):
     def __init__(self, left, relationalExpression):
@@ -521,10 +540,21 @@ class RelationalExpressionNode(AST):
         raise SemanticError("Invalid operator.")
 
     def to_dict(self, symtable):
+        key = "relExp"
+        if hasattr(self, "val"):
+            key = key + " val="+str(self.val) + " op="+self.op.type
+        else:
+            key = key + " " + self.op.type
+        if hasattr(self.left, "val") and hasattr(self.left, "pos"):
+            symtable.add_line(self.left.val, self.left.pos)
+        if hasattr(self.right, "val") and hasattr(self.right, "pos"):
+            symtable.add_line(self.right.val, self.right.pos)
         return{
-            "prod" : self.op.type,
-            "left" : self.left.to_dict(symtable),
-            "right" : self.right.to_dict(symtable)
+            key : {
+                "prod" : self.op.type,
+                "left" : self.left.to_dict(symtable),
+                "right" : self.right.to_dict(symtable),
+            }
         }
 
 class NoOperationNode(AST):

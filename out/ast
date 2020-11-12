@@ -18,17 +18,17 @@
     "statements": [
         {
             "prod": "suma := ERROR: variable indefinida",
-            "expr": "45",
+            "expr": "45 val=45",
             "type": "int"
         },
         {
             "prod": "x := ERROR: Tipos incompatibles",
-            "expr": "32.32",
+            "expr": "32.32 val=32.32",
             "type": "float"
         },
         {
             "prod": "x := 23",
-            "expr": "23",
+            "expr": "23 val=23",
             "type": "int"
         },
         {
@@ -36,8 +36,8 @@
             "expr": {
                 "- val=4": {
                     "+ val=5": [
-                        "2",
-                        "3"
+                        "2 val=2",
+                        "3 val=3"
                     ],
                     "1": "1"
                 }
@@ -48,8 +48,8 @@
             "prod": "z := 11",
             "expr": {
                 "+ val=11": [
-                    "y",
-                    "7"
+                    "y val=4",
+                    "7 val=7"
                 ]
             },
             "type": "int"
@@ -58,8 +58,8 @@
             "prod": "y := 5",
             "expr": {
                 "+ val=5": [
-                    "y",
-                    "1"
+                    "y val=4",
+                    "1 val=1"
                 ]
             },
             "type": "int"
@@ -71,13 +71,13 @@
                     "+ val=62.0": {
                         "- val=28.0": {
                             "+ val=28.0": [
-                                "24.0",
-                                "4"
+                                "24.0 val=24.0",
+                                "4 val=4"
                             ],
                             "* val=0": {
                                 "/ val=0": [
-                                    "1",
-                                    "3"
+                                    "1 val=1",
+                                    "3 val=3"
                                 ],
                                 "2": "2"
                             }
@@ -94,12 +94,12 @@
             "expr": {
                 "* val=8": {
                     "- val=2": [
-                        "5",
-                        "3"
+                        "5 val=5",
+                        "3 val=3"
                     ],
                     "/ val=4": [
-                        "8",
-                        "2"
+                        "8 val=8",
+                        "2 val=2"
                     ]
                 }
             },
@@ -111,13 +111,13 @@
                 "- val=-2": {
                     "- val=7": {
                         "+ val=8": [
-                            "5",
-                            "3"
+                            "5 val=5",
+                            "3 val=3"
                         ],
                         "/ val=1": {
                             "* val=8": [
-                                "2",
-                                "4"
+                                "2 val=2",
+                                "4 val=4"
                             ],
                             "7": "7"
                         }
@@ -132,12 +132,12 @@
             "expr": {
                 "+ val=64": {
                     "/ val=4": [
-                        "8",
-                        "2"
+                        "8 val=8",
+                        "2 val=2"
                     ],
                     "* val=60": [
-                        "15",
-                        "4"
+                        "15 val=15",
+                        "4 val=4"
                     ]
                 }
             },
@@ -145,38 +145,85 @@
         },
         {
             "prod": "y := ERROR: Tipos incompatibles",
-            "expr": "14.54",
+            "expr": "14.54 val=14.54",
             "type": "float"
         },
         {
             "prod": "if val=False",
             "condition": {
-                "prod": ">",
-                "left": "2",
-                "right": "3"
-            },
-            "statements": [
-                {
-                    "prod": "w := ERROR: variable indefinida",
-                    "expr": {
-                        "+ val=None": [
-                            "w",
-                            "3"
-                        ]
-                    },
-                    "type": "float"
+                "relExp val=False op=>": {
+                    "prod": ">",
+                    "left": "2 val=2",
+                    "right": "3 val=3"
                 }
-            ],
-            "else": []
+            },
+            "statements": {
+                "statements": [
+                    {
+                        "prod": "w := ERROR: variable indefinida",
+                        "expr": {
+                            "+ val=None": [
+                                "w",
+                                "3 val=3"
+                            ]
+                        },
+                        "type": "float"
+                    }
+                ],
+                "prod": "statements"
+            },
+            "else": {
+                "elseNode": [
+                    {
+                        "prod": "if val=True",
+                        "condition": {
+                            "relExp val=True op=>": {
+                                "prod": ">",
+                                "left": "4 val=4",
+                                "right": "2 val=2"
+                            }
+                        },
+                        "statements": {
+                            "statements": [
+                                {
+                                    "prod": "b := 3.2",
+                                    "expr": "3.2 val=3.2",
+                                    "type": "float"
+                                }
+                            ],
+                            "prod": "statements"
+                        },
+                        "else": {
+                            "elseNode": [
+                                {
+                                    "prod": "c := 5.0",
+                                    "expr": "5.0 val=5.0",
+                                    "type": "float"
+                                }
+                            ],
+                            "prod": "elseNode"
+                        }
+                    },
+                    {
+                        "prod": "v := ERROR: variable indefinida",
+                        "expr": {
+                            "+ val=None": [
+                                "v",
+                                "1 val=1"
+                            ]
+                        },
+                        "type": "float"
+                    }
+                ],
+                "prod": "elseNode"
+            }
         },
         {
             "prod": "a := 62.0",
             "expr": {
                 "+ val=62.0": [
-                    {
-                        "prod": "identifier a"
-                    },
-                    "1"
+                    "a val=61.0",
+                    "1 val=1"
                 ]
             },
             "type": "float"
@@ -185,10 +232,8 @@
             "prod": "c := 4.0",
             "expr": {
                 "- val=4.0": [
-                    {
-                        "prod": "identifier c"
-                    },
-                    "1"
+                    "c val=5.0",
+                    "1 val=1"
                 ]
             },
             "type": "float"
@@ -197,8 +242,8 @@
             "prod": "x := 7",
             "expr": {
                 "+ val=7": [
-                    "3",
-                    "4"
+                    "3 val=3",
+                    "4 val=4"
                 ]
             },
             "type": "int"
@@ -212,8 +257,8 @@
                         "+ val=-1": {
                             "* val=-2": {
                                 "+ val=-1": [
-                                    "y",
-                                    "1"
+                                    "y val=-2",
+                                    "1 val=1"
                                 ],
                                 "2": "2"
                             },
@@ -227,22 +272,23 @@
                     "block": {
                         "statements": [
                             {
-                                "prod": "x := ERROR: Tipos incompatibles",
+                                "prod": "x := 6",
                                 "expr": {
-                                    "+ val=ERROR": {
+                                    "+ val=6": {
                                         "6": "6",
-                                        "/ val=ERROR": {
-                                            "* val=ERROR": {
-                                                "/ val=ERROR": [
-                                                    "8",
-                                                    "9"
+                                        "/ val=0": {
+                                            "* val=0": {
+                                                "/ val=0": [
+                                                    "8 val=8",
+                                                    "9 val=9"
                                                 ],
                                                 "8": "8"
                                             },
                                             "3": "3"
                                         }
                                     }
-                                }
+                                },
+                                "type": "int"
                             },
                             {
                                 "prod": "cin x"
@@ -250,16 +296,24 @@
                             {
                                 "prod": "mas := ERROR: variable indefinida",
                                 "expr": {
-                                    "/ val=ERROR": [
-                                        "36",
-                                        "7"
+                                    "/ val=5": [
+                                        "36 val=36",
+                                        "7 val=7"
                                     ]
-                                }
+                                },
+                                "type": "int"
                             }
                         ]
                     }
                 }
-            ]
+            ],
+            "relExpression": {
+                "relExp val=False op===": {
+                    "prod": "==",
+                    "left": "y val=-2",
+                    "right": "5 val=5"
+                }
+            }
         },
         {
             "prod": "while val=False",
@@ -272,9 +326,9 @@
                         "prod": "print",
                         "expression": {
                             "x": "x",
-                            "* val=ERROR": [
-                                "3",
-                                "5"
+                            "* val=15": [
+                                "3 val=3",
+                                "5 val=5"
                             ]
                         }
                     }
