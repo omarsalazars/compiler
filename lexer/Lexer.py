@@ -2,6 +2,7 @@ import re
 import sys
 from .Token import Token
 from .LexerError import LexerError
+from .Rules import TokenType
 
 class Lexer:
     def __init__(self, rules, skip_whitespace=True):
@@ -17,11 +18,13 @@ class Lexer:
 
         self.regex = re.compile('|'.join(regex_parts))
         self.skip_whitespace = skip_whitespace
-        self.re_ws_skip = re.compile('\S')
+        self.re_ws_skip = re.compile('[^ \t\r\f\v]')
+        self.new_line = re.compile('\n')
 
     def input(self, buf):
         self.buf = buf
         self.pos = 0
+        self.line = 1
 
     def token(self):
         if(self.pos >= len(self.buf)):
@@ -31,6 +34,14 @@ class Lexer:
                 match = self.re_ws_skip.search(self.buf, self.pos)
 
                 if match:
+                    if self.new_line.match(self.buf, self.pos):
+                        while self.new_line.match(self.buf, self.pos):
+                            self.pos = self.pos+1
+                            self.line = self.line+1
+                            pass
+                        if (self.pos >= len(self.buf)):
+                            return None
+                        match = self.re_ws_skip.search(self.buf, self.pos)
                     self.pos = match.start()
                 else:
                     return None
@@ -39,11 +50,13 @@ class Lexer:
             if match:
                 groupname = match.lastgroup
                 tok_type = self.group_type[groupname]
-                tok = Token(tok_type, match.group(groupname), self.pos)
+                tok = Token(tok_type, match.group(groupname), self.line)
+                if tok_type == TokenType.COMMENT:
+                    self.line = self.line+1
                 self.pos = match.end()
                 return tok
             print(self.buf[self.pos])
-            raise LexerError(self.pos, self.buf[self.pos])
+            raise LexerError(self.pos, self.buf[self.line])
 
     def tokens(self):
         while 1:

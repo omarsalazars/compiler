@@ -30,11 +30,19 @@ class SymbolTable(dict):
             # raise SemanticError("Variable already defined")
             pass
         else:
-            self[name] = {'type': type, 'lines': [lineno], 'val': 0, 'loc': self.loc}
+            self[name] = {'type': type, 'lines': [], 'val': 0, 'loc': self.loc}
             self.loc = self.loc + 1
         pass
 
     def add_line(self, name, line):
+        return
+        if name in self:
+            if line in self[name]['lines']:
+                pass
+            else:
+                self[name]['lines'].append(line)
+
+    def add_l(self, name, line):
         if name in self:
             self[name]['lines'].append(line)
 
@@ -44,17 +52,19 @@ class SymbolTable(dict):
             if attribute in self[name]:
                 self[name][attribute] = newVal
                 if attribute == "val":
-                    if self[name]["type"]["token"]["type"] == TokenType.INT:
-                        self[name]["val"] = int(self[name]["val"])
-                    elif self[name]["type"]["token"]["type"] == TokenType.REAL:
-                        self[name]["val"] = float(self[name]["val"])
+                    if self[name]["type"].token.type == TokenType.INT:
+                        if self[name]["val"] is not None:
+                            self[name]["val"] = int(self[name]["val"])
+                    elif self[name]["type"].token.type == TokenType.REAL:
+                        if self[name]["val"] is not None:
+                            self[name]["val"] = float(self[name]["val"])
                     else:
                         pass
             else:
                 raise SemanticError("Attribute %s not defined" % attribute)
         else:
             # raise SemanticError("Undefined variable %s" % name)
-            self.insert(name, )
+            print("Variable indefinida %s" % name)
 
     # Get an attribute associated with a given entry
     def get_attribute(self, name, attribute):

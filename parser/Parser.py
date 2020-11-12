@@ -201,11 +201,11 @@ class Parser:
         if self.match(TokenType.INC):
             self.expect(TokenType.INC)
             plusToken = Token(TokenType.PLUS, '+', self.current.pos)
-            node = AssignNode(left, BinaryOperationNode(left, plusToken, oneNode))
+            node = AssignNode(left, BinaryOperationNode(NumNode(left), plusToken, oneNode))
         elif self.match(TokenType.DEC):
             self.expect(TokenType.DEC)
             minusToken = Token(TokenType.MINUS, '-', self.current.pos)
-            node = AssignNode(left, BinaryOperationNode(left, minusToken, oneNode))
+            node = AssignNode(left, BinaryOperationNode(NumNode(left), minusToken, oneNode))
         else:
             self.expect(TokenType.EQUALS)
             relationalExpression = self.RelationalExpression()
