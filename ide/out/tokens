@@ -6,8 +6,6 @@ TokenType.COMMA( ',' ) at 2
 TokenType.IDENTIFIER( 'y' ) at 2
 TokenType.COMMA( ',' ) at 2
 TokenType.IDENTIFIER( 'z' ) at 2
-TokenType.COMMA( ',' ) at 2
-TokenType.IDENTIFIER( 'z' ) at 2
 TokenType.SEMICOLON( ';' ) at 2
 TokenType.REAL( 'real' ) at 3
 TokenType.IDENTIFIER( 'a' ) at 3
