@@ -6,8 +6,6 @@ TokenType.COMMA( ',' ) at 2
 TokenType.IDENTIFIER( 'y' ) at 2
 TokenType.COMMA( ',' ) at 2
 TokenType.IDENTIFIER( 'z' ) at 2
-TokenType.COMMA( ',' ) at 2
-TokenType.IDENTIFIER( 'z' ) at 2
 TokenType.SEMICOLON( ';' ) at 2
 TokenType.REAL( 'real' ) at 3
 TokenType.IDENTIFIER( 'a' ) at 3
@@ -15,8 +13,6 @@ TokenType.COMMA( ',' ) at 3
 TokenType.IDENTIFIER( 'b' ) at 3
 TokenType.COMMA( ',' ) at 3
 TokenType.IDENTIFIER( 'c' ) at 3
-TokenType.COMMA( ',' ) at 3
-TokenType.IDENTIFIER( 'x' ) at 3
 TokenType.SEMICOLON( ';' ) at 3
 TokenType.IDENTIFIER( 'suma' ) at 4
 TokenType.EQUALS( ':=' ) at 4

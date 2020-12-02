@@ -98,9 +98,10 @@ class VarNode(AST):
             print("ERROR linea %s: Variable %s redeclarada." % (self.token.pos, self.token.val))
             return True
         symtable.insert(self.token.val, self.type, self.token.pos)
+        symtable.add_line(self.token.val, self.token.pos)
 
     def to_dict(self, symtable):
-        return self.token.val
+        return str(self.token.val) + " " + str(self.type.token.val)
 
 class IfNode(AST):
     def __init__(self, relationalExpression, block, elseNode = None):
@@ -361,9 +362,13 @@ class BinaryOperationNode(AST):
                 leftkey = leftkey + " val="+str(self.left.val)
             else:
                 leftkey = leftkey + " val=ERROR"
+            if hasattr(self.right,"to_dict"):
+                rightAux = self.right.to_dict(symtable)
+            else:
+                rightAux = self.right.token.val
             ret = {
                     leftkey: self.left.to_dict(symtable),
-                    self.right.token.val : self.right.token.val
+                    self.right.token.val : rightAux
             }
         elif isinstance(self.right, BinaryOperationNode):
             rightkey = self.right.op.type
@@ -371,8 +376,12 @@ class BinaryOperationNode(AST):
                 rightkey = rightkey + " val=" + str(self.right.val)
             else:
                 rightkey = rightkey + " val=ERROR"
+            if hasattr(self.left, "to_dict"):
+                leftAux = self.left.to_dict(symtable)
+            else:
+                leftAux = self.left.token.val
             ret = {
-                    self.left.token.val : self.left.token.val,
+                    self.left.token.val : leftAux,
                     rightkey: self.right.to_dict(symtable)
             }
         else:
@@ -392,6 +401,7 @@ class NumNode(AST):
             if symtable.lookup(self.token.val) is not None:
                 self.val = symtable.lookup(self.token.val)["val"]
                 self.type = symtable.lookup(self.token.val)["type"].token.type
+                symtable.add_line(self.token.val, self.token.pos)
         elif self.token.type == TokenType.NUMBER:
             try:
                 self.val = int(self.token.val)
@@ -409,8 +419,8 @@ class NumNode(AST):
             raise SemanticError("Error inesperado.")
 
     def to_dict(self, symtable):
-        if self.token.type == TokenType.IDENTIFIER:
-            symtable.add_line(self.token.val, self.token.pos)
+        #if self.token.type == TokenType.IDENTIFIER:
+            #symtable.add_line(self.token.val, self.token.pos)
         if hasattr(self, "val"):
             return self.token.val + " val="+str(self.val)
         else:
@@ -513,11 +523,13 @@ class RelationalExpressionNode(AST):
         if hasattr(self.left, "token"):
             if hasattr(self.left.token, "type"):
                 if self.left.token.type == TokenType.IDENTIFIER:
-                    symtable.add_line(self.left.token.val, self.left.token.pos)
+                    #symtable.add_line(self.left.token.val, self.left.token.pos)
+                    pass
         if hasattr(self.right, "token"):
             if hasattr(self.right.token,"type"):
                 if self.right.token.type == TokenType.IDENTIFIER:
-                    symtable.add_line(self.right.token.val, self.right.token.pos)
+                    #symtable.add_line(self.right.token.val, self.right.token.pos)
+                    pass
         self.type = TokenType.BOOLEAN
         if self.left.val is None or self.right.val is None:
             self.val = None
@@ -545,10 +557,10 @@ class RelationalExpressionNode(AST):
             key = key + " val="+str(self.val) + " op="+self.op.type
         else:
             key = key + " " + self.op.type
-        if hasattr(self.left, "val") and hasattr(self.left, "pos"):
-            symtable.add_line(self.left.val, self.left.pos)
-        if hasattr(self.right, "val") and hasattr(self.right, "pos"):
-            symtable.add_line(self.right.val, self.right.pos)
+        #if hasattr(self.left, "val") and hasattr(self.left, "pos"):
+            #symtable.add_line(self.left.val, self.left.pos)
+        #if hasattr(self.right, "val") and hasattr(self.right, "pos"):
+            #symtable.add_line(self.right.val, self.right.pos)
         return{
             key : {
                 "prod" : self.op.type,

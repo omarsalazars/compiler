@@ -19,7 +19,7 @@ def add_lines(symtable, tokens):
             if symtable.lookup(tok.val) is not None:
                 symtable.add_l(tok.val, tok.pos)
 
-add_lines(compiler.semantics.symbol, compiler.tokens)
+#add_lines(compiler.semantics.symbol, compiler.tokens)
 #SymTable
 file = open("out/sym", "w")
 json_str = json.dumps(compiler.semantics.symbol, indent=4, cls=TableEncoder)
